@@ -1,10 +1,19 @@
-# ALOHA — 六角學院切版班第八週
+# ALOHA 旅館訂房
 
-依照六角學院的 ALOHA 訂房設計稿實作的前端練習，使用 Vinext App Router、React 和 Tailwind CSS，部署至 Cloudflare Workers。
+六角學院切版班第八週作業。使用 Vinext 1.4.6、React 19 與 Tailwind CSS 4.3.5，部署於 Cloudflare Workers。
 
-## 開發
+[線上網站](https://hex-f2e-live-week8-aloha.piafyoyo06.workers.dev) · [設計稿](https://xd.adobe.com/view/0cf6ec93-07a3-492f-58f2-9767ba1cfdfb-7ac7/) · [原始素材](https://github.com/hexschool/2022-web-layout-training/tree/main/week8-booking)
 
-使用 Node.js 24 或更新版本。
+## 功能
+
+- 首頁、搜尋結果、飯店詳情、訂房、訂房完成、登入與會員中心皆支援桌機、平板及手機。
+- 可選擇入住與退房區間、搜尋目的地、調整旅客與房間數，並篩選、排序與選房。
+- 首頁橫幅支援自動播放與暫停。卡片與相簿可切換，捲動進場會尊重系統的減少動態設定。
+- 訂房、登入與訂閱使用示範資料。設計稿只有連結的項目使用佔位頁。
+
+## 本機開發
+
+需要 Node.js 24 以上。
 
 ```sh
 npm ci
@@ -14,38 +23,9 @@ npm run build
 npm run preview
 ```
 
-使用 Wrangler 登入具備 Workers 部署權限的 Cloudflare 帳戶後，可執行 `npm run deploy`。Windows PowerShell 若限制執行 `npm.ps1`，可使用 `npm.cmd`。
+登入 Wrangler 後，以 `npm run deploy` 部署。
 
-## 畫板與路由
+## 程式結構
 
-| 畫板                 | 路由                       |
-| -------------------- | -------------------------- |
-| Home                 | `/`                        |
-| Result               | `/results`                 |
-| Detail               | `/hotel/rachada-hotel`     |
-| Reserve              | `/reserve`                 |
-| Reserve success      | `/reserve/success`         |
-| Login                | `/login`                   |
-| Member               | `/member`                  |
-| Select room          | 房量大於零時顯示固定選房列 |
-| Mobile Result filter | 由搜尋結果的 Filter 開啟   |
-
-各主要頁面包含桌機、平板及手機版型。沒有畫板的連結使用 `/info/[slug]` 佔位頁。搜尋、排序、篩選及房型金額使用本地樣本。登入、訂閱與訂單是前端展示，訂房聯絡資料僅保留在當前瀏覽器分頁的 session storage。沒有付款、帳號驗證或寄信服務。
-
-搜尋欄使用自訂的入住／退房區間日曆、可鍵盤操作的目的地選單與旅客數量控制。首頁橫幅、飯店卡片、靈感文章及飯店相簿支援對應版型的輪播操作。首頁橫幅可以暫停自動播放。頁面區塊的捲動進場效果會尊重系統的減少動態偏好。
-
-## Design system
-
-| Token                     | 值／用途                                                |
-| ------------------------- | ------------------------------------------------------- |
-| `font-display`            | Raleway，標題與大尺寸價格                               |
-| `font-sans`               | Open Sans，內文、表單與按鈕                             |
-| `font-nav`                | Roboto，導覽與結帳輔助文案                              |
-| `brand` / `brand-dark`    | `#6C51E2` / `#5639C4`，主要操作與強調                   |
-| `lavender`                | `#F1F0F8`，搜尋、篩選及摘要背景                         |
-| `ink` / `text` / `subtle` | `#121212` / `#595959` / `#707070`，標題、內文及次要文字 |
-
-全站 tokens 與按鈕、欄位、導覽和對話框樣式集中於 `app/globals.css`。主要互動位於 `components/`，樣本與金額計算位於 `lib/catalog.ts`。字型自行託管，圖檔使用多尺寸 WebP 與瀏覽器原生延遲載入。
-
-- [六角學院 Adobe XD 設計稿](https://xd.adobe.com/view/0cf6ec93-07a3-492f-58f2-9767ba1cfdfb-7ac7/)
-- [六角學院提供的作業素材](https://github.com/hexschool/2022-web-layout-training/tree/main/week8-booking)
+- `app/` 管理頁面與樣式，`components/` 放共用元件，`lib/catalog.ts` 管理示範資料與房價計算。
+- `app/globals.css` 定義設計 tokens。標題使用 Raleway，內文使用 Open Sans，導覽使用 Roboto，品牌色為 `#6C51E2`。
