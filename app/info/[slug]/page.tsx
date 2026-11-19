@@ -1,24 +1,14 @@
 import { notFound } from "next/navigation";
 import { SiteShell } from "@/components/site-shell";
-import { hotels, stories } from "@/lib/catalog";
 
 const pages = new Map([
   ["sign-up", "Sign up"],
   ["language", "Language"],
   ["currency", "Currency"],
-  ["inspiration", "Get Inspiration"],
   ["result-page", "More results"],
-  ["hotel-aqua", "Hotel Aqua"],
-  ["mr-kawasaki-inn", "Mr. Kawasaki Inn"],
-  ["weekly-paradise", "Weekly Paradise"],
-  ["beast-hotel", "Beast Hotel"],
   ["edit-profile", "Edit profile"],
   ["add-payment", "Add payment method"],
   ["wow-life-booking", "WOW Life Hotel reservation"],
-  ...hotels
-    .filter(({ slug }) => slug !== "rachada-hotel")
-    .map(({ slug, name }) => [slug, name] as const),
-  ...stories.map(({ slug, title }) => [slug, title] as const),
 ]);
 
 type Props = { params: Promise<{ slug: string }> };
@@ -38,7 +28,7 @@ export default async function PlaceholderPage({ params }: Props) {
     slug,
   )
     ? "/member"
-    : slug === "result-page" || hotels.some((hotel) => hotel.slug === slug)
+    : slug === "result-page"
       ? "/results"
       : "/";
   return (

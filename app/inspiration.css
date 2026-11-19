@@ -1,0 +1,191 @@
+@reference "./globals.css";
+
+@layer components {
+  .inspiration-hero {
+    @apply bg-lavender py-14;
+  }
+  .inspiration-hero h1 {
+    @apply text-5xl leading-tight;
+  }
+  .inspiration-hero p {
+    @apply mt-3 text-text;
+  }
+  .inspiration-list {
+    @apply pt-12 pb-18;
+  }
+
+  .article-grid {
+    @apply grid grid-cols-3 gap-[30px];
+  }
+  .article-card {
+    min-width: 0;
+  }
+  .article-card img {
+    @apply h-[263px] w-full rounded-lg object-cover;
+  }
+  .article-card .article-meta {
+    @apply mt-4 text-xs font-bold tracking-wide text-brand uppercase;
+  }
+  .article-card :is(h2, h3) {
+    @apply mt-1 text-2xl leading-snug;
+  }
+  .article-card a:hover :is(h2, h3) {
+    @apply text-brand underline;
+  }
+  .article-card > p {
+    @apply mt-2 text-text;
+  }
+
+  .article-hero {
+    @apply relative isolate flex h-[440px] items-end overflow-hidden bg-ink text-white;
+  }
+  .article-hero-image {
+    @apply absolute inset-0 -z-20 size-full object-cover;
+  }
+  .article-hero::before {
+    content: "";
+    @apply absolute inset-0 -z-10 bg-linear-to-t from-black/75 via-black/30 to-black/10;
+  }
+  .article-hero-text {
+    @apply pb-12;
+  }
+  .article-back {
+    @apply mb-6 inline-flex items-center gap-1 text-sm font-bold text-white/85;
+  }
+  .article-back:hover {
+    @apply text-white underline;
+  }
+  .article-hero .article-meta {
+    @apply text-xs font-bold tracking-wide uppercase;
+  }
+  .article-hero h1 {
+    @apply mt-2 max-w-[760px] text-5xl leading-[1.16] font-extrabold;
+  }
+  .article-hero :focus-visible {
+    outline-color: white;
+  }
+
+  .article-container {
+    @apply mx-auto w-[min(100%_-_30px,730px)] pt-12 pb-18;
+  }
+  .article-intro {
+    @apply text-xl leading-8 text-ink;
+  }
+  .article-container section {
+    @apply mt-10;
+  }
+  .article-container section h2 {
+    @apply mb-3 text-2xl;
+  }
+  .article-container section p {
+    @apply leading-7 text-text;
+  }
+  .article-container section p + p {
+    @apply mt-4;
+  }
+  .article-container figure {
+    @apply mt-8;
+  }
+  .article-container figure img {
+    @apply aspect-[3/2] w-full rounded-lg object-cover;
+  }
+  .article-container figcaption {
+    @apply mt-2 text-sm text-subtle;
+  }
+  .article-stay {
+    @apply mt-12 flex items-center justify-between gap-6 rounded-lg bg-lavender p-6;
+  }
+  .article-stay h2 {
+    @apply text-xl;
+  }
+  .article-stay p {
+    @apply mt-1 text-sm text-text;
+  }
+
+  .article-more {
+    @apply border-t border-line pt-12 pb-18;
+  }
+  .article-more > h2 {
+    @apply mb-6 text-[32px];
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .article-grid {
+    gap: 24px;
+  }
+  .article-card img {
+    height: 155px;
+  }
+  .article-card :is(h2, h3) {
+    font-size: 20px;
+  }
+  .article-hero {
+    height: 360px;
+  }
+  .article-hero h1,
+  .inspiration-hero h1 {
+    font-size: 40px;
+  }
+}
+
+@media (max-width: 767px) {
+  .inspiration-hero {
+    padding-block: 32px;
+  }
+  .inspiration-hero h1 {
+    font-size: 32px;
+  }
+  .inspiration-list {
+    padding-top: 24px;
+    padding-bottom: 48px;
+  }
+  .article-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .article-card img {
+    height: 200px;
+  }
+  .article-card :is(h2, h3) {
+    font-size: 20px;
+  }
+  .article-hero {
+    height: 300px;
+  }
+  .article-hero-text {
+    padding-bottom: 24px;
+  }
+  .article-back {
+    margin-bottom: 12px;
+  }
+  .article-hero h1 {
+    font-size: 30px;
+  }
+  .article-container {
+    padding-top: 24px;
+    padding-bottom: 48px;
+  }
+  .article-intro {
+    font-size: 18px;
+    line-height: 1.6;
+  }
+  .article-container section {
+    margin-top: 32px;
+  }
+  .article-container section h2 {
+    font-size: 20px;
+  }
+  .article-stay {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .article-more {
+    padding-top: 32px;
+    padding-bottom: 48px;
+  }
+  .article-more > h2 {
+    font-size: 24px;
+  }
+}

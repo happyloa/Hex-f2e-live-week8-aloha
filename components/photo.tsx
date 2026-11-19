@@ -25,11 +25,15 @@ export function Photo({
   const widths =
     asset === "profile"
       ? [128]
-      : largeImages.has(asset)
-        ? [400, 800, 1280]
-        : destinationImages.has(asset)
-          ? [320, 640]
-          : [320, 480, 640];
+      : asset.endsWith("-hero")
+        ? [800, 1280]
+        : asset.endsWith("-wide")
+          ? [960]
+          : largeImages.has(asset)
+            ? [400, 800, 1280]
+            : destinationImages.has(asset)
+              ? [320, 640]
+              : [320, 480, 640];
   const src = (width: number) => "/img/" + asset + "-" + width + ".webp";
   return (
     <img

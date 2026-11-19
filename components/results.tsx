@@ -1,7 +1,13 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { hotels, money, stayQuery, type Stay } from "@/lib/catalog";
+import {
+  cityCount,
+  hotels,
+  money,
+  stayQuery,
+  type Stay,
+} from "@/lib/catalog";
 import { Icon, Stars } from "./icon";
 import { Photo } from "./photo";
 
@@ -184,10 +190,7 @@ function HotelCard({
   query: string;
   priority: boolean;
 }) {
-  const href =
-    hotel.slug === "rachada-hotel"
-      ? "/hotel/rachada-hotel?" + query
-      : "/info/" + hotel.slug;
+  const href = "/hotel/" + hotel.slug + "?" + query;
   return (
     <article className="hotel-card">
       <a className="hotel-photo" href={href} aria-label={hotel.name}>
@@ -200,7 +203,7 @@ function HotelCard({
       <div className="hotel-body">
         <div className="hotel-title">
           <p className="hotel-location">
-            {hotel.area}, Bangkok<span>・{hotel.distance} km from center</span>
+            {hotel.area}, {hotel.city}<span>・{hotel.distance} km from center</span>
           </p>
           <h2>
             <a href={href}>{hotel.name}</a>
@@ -249,8 +252,9 @@ export function Results({ stay }: { stay: Stay }) {
   const filterDialog = useRef<HTMLDialogElement>(null);
   const sortDialog = useRef<HTMLDialogElement>(null);
   const query = stayQuery(stay).toString();
+  const cityHotels = hotels.filter((hotel) => hotel.city === stay.destination);
   const filterHotels = (values: Filters) =>
-    hotels.filter((hotel) => {
+    cityHotels.filter((hotel) => {
       const dealTags = hotel.was
         ? [...hotel.tags, "Special offers"]
         : hotel.tags;
@@ -261,10 +265,10 @@ export function Results({ stay }: { stay: Stay }) {
           values.ratings.includes(String(hotel.rating))) &&
         (!values.types.length || values.types.includes(hotel.type)) &&
         (values.min === initialFilters.min || hotel.price >= values.min) &&
-        hotel.price <= values.max
+        (values.max === initialFilters.max || hotel.price <= values.max)
       );
     });
-  const matching = stay.destination === "Bangkok" ? filterHotels(filters) : [];
+  const matching = filterHotels(filters);
   const compare = [
     () => 0,
     (a: (typeof hotels)[number], b: (typeof hotels)[number]) =>
@@ -275,14 +279,17 @@ export function Results({ stay }: { stay: Stay }) {
       a.distance - b.distance,
   ];
   matching.sort(compare[sort]);
-  const unfiltered = matching.length === hotels.length;
+  const unfiltered = matching.length === cityHotels.length;
+  const total = cityCount(stay.destination) ?? cityHotels.length;
 
   return (
     <div className="site-container results-layout">
       <h1>
         {stay.destination}
         {matching.length > 0 && (
-          <sup>{unfiltered ? "3,240" : matching.length}</sup>
+          <sup>
+            {unfiltered ? total.toLocaleString("en-US") : matching.length}
+          </sup>
         )}
       </h1>
       <div className="mobile-result-controls">
@@ -326,11 +333,11 @@ export function Results({ stay }: { stay: Stay }) {
         {matching.length === 0 && (
           <div className="empty-result">
             <h2>
-              {stay.destination === "Bangkok"
+              {cityHotels.length
                 ? "No stays match these filters"
                 : "No sample listings are available for this destination"}
             </h2>
-            {stay.destination === "Bangkok" ? (
+            {cityHotels.length ? (
               <button
                 className="button button-outline"
                 onClick={() => setFilters(initialFilters)}
@@ -409,7 +416,7 @@ export function Results({ stay }: { stay: Stay }) {
         <div className="mobile-filter-actions">
           <h3>
             Find{" "}
-            {stay.destination === "Bangkok" ? filterHotels(draft).length : 0}{" "}
+            {filterHotels(draft).length}{" "}
             results
           </h3>
           <button

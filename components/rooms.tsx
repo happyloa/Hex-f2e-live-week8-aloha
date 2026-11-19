@@ -9,15 +9,23 @@ import {
   money,
   nightLabel,
   nights,
-  roomTypes,
   stayQuery,
   type Stay,
 } from "@/lib/catalog";
+import type { HotelProfile } from "@/lib/hotels";
 import { Icon } from "./icon";
 import { Photo } from "./photo";
 
-export function Rooms({ stay }: { stay: Stay }) {
-  const [counts, setCounts] = useState([0, 0, 0]);
+export function Rooms({
+  stay,
+  hotel,
+}: {
+  stay: Stay;
+  hotel: Pick<HotelProfile, "slug" | "rooms">;
+}) {
+  const roomTypes = hotel.rooms;
+  const empty = roomTypes.map(() => 0);
+  const [counts, setCounts] = useState(empty);
   const nightCount = nights(stay);
   const count = counts.reduce((sum, value) => sum + value, 0);
   const total = roomTypes.reduce(
@@ -25,6 +33,7 @@ export function Rooms({ stay }: { stay: Stay }) {
     0,
   );
   const query = stayQuery({ ...stay, rooms: count || stay.rooms });
+  query.set("hotel", hotel.slug);
   roomTypes.forEach(({ id }, index) => {
     if (counts[index]) query.set(id, String(counts[index]));
   });
@@ -58,7 +67,7 @@ export function Rooms({ stay }: { stay: Stay }) {
             />
             <div>
               <h3>{room.name}</h3>
-              <p>1 bed (Queen size)</p>
+              <p>{room.bed}</p>
               <ul className="amenities">
                 {room.features.map((feature) => (
                   <li key={feature}>
@@ -69,9 +78,14 @@ export function Rooms({ stay }: { stay: Stay }) {
               </ul>
             </div>
           </div>
-          <div className="room-sleeps" role="img" aria-label="Sleeps 2">
-            <Icon name="person" size={20} />
-            <Icon name="person" size={20} />
+          <div
+            className="room-sleeps"
+            role="img"
+            aria-label={"Sleeps " + room.sleeps}
+          >
+            {Array.from({ length: room.sleeps }, (_, person) => (
+              <Icon key={person} name="person" size={20} />
+            ))}
           </div>
           <div className="room-price">
             {room.was && <del>{money(room.was)}</del>}
@@ -127,7 +141,7 @@ export function Rooms({ stay }: { stay: Stay }) {
             </div>
             <button
               className="button button-outline"
-              onClick={() => setCounts([0, 0, 0])}
+              onClick={() => setCounts(empty)}
             >
               Cancel
             </button>

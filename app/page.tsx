@@ -52,7 +52,7 @@ export default function Home() {
             <h2 id="inspiration-title">Get Inspiration</h2>
             <a
               className="button button-outline button-small"
-              href="/info/inspiration"
+              href="/inspiration"
             >
               See more<span className="sr-only"> inspiration</span>
             </a>
@@ -60,7 +60,7 @@ export default function Home() {
           <CardCarousel variant="story" label="travel stories">
             {stories.map(({ slug, title, photo, excerpt }) => (
               <article key={slug}>
-                <a href={"/info/" + slug}>
+                <a href={"/inspiration/" + slug}>
                   <Photo
                     asset={photo}
                     sizes="(min-width: 1024px) 350px, 240px"

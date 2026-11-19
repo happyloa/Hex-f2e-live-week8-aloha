@@ -1,7 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { choices, money, topHotels } from "@/lib/catalog";
+import {
+  choices,
+  defaultStay,
+  money,
+  stayQuery,
+  topHotels,
+} from "@/lib/catalog";
 import {
   CardCarousel,
   useReducedMotion,
@@ -12,12 +18,6 @@ import { Icon, Stars } from "./icon";
 import { Photo } from "./photo";
 
 const banners = ["index-banner", "osaka", "bangkok"];
-const topHotelSlugs = [
-  "hotel-aqua",
-  "mr-kawasaki-inn",
-  "weekly-paradise",
-  "beast-hotel",
-];
 
 export function Hero() {
   const hero = useRef<HTMLElement>(null);
@@ -169,7 +169,14 @@ export function TopChoices() {
       <CardCarousel key={selected} variant="top" label="hotels">
         {hotels.map((hotel) => (
           <article className="top-card" key={hotel.name}>
-            <a href={"/info/" + topHotelSlugs[topHotels.indexOf(hotel)]}>
+            <a
+              href={
+                "/hotel/" +
+                hotel.slug +
+                "?" +
+                stayQuery({ ...defaultStay, destination: hotel.city })
+              }
+            >
               <Photo
                 asset={hotel.photo}
                 alt=""

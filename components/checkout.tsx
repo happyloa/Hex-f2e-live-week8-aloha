@@ -7,9 +7,9 @@ import {
   money,
   nightLabel,
   nights,
-  type reservation,
   type Stay,
 } from "@/lib/catalog";
+import type { reservation } from "@/lib/hotels";
 import { Icon } from "./icon";
 
 type Booking = ReturnType<typeof reservation>;
@@ -61,7 +61,7 @@ function BookingSummary({ stay, booking }: { stay: Stay; booking: Booking }) {
             {nightLabel(nights(stay))}
           </p>
           <p>{guestLabel(stay)}</p>
-          <p>Rachada Hotel</p>
+          <p>{booking.hotel.name}</p>
         </section>
         <section>
           <h2>Price summary</h2>

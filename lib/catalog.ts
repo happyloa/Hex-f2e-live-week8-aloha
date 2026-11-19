@@ -10,23 +10,25 @@ export type Stay = typeof defaultStay;
 export type Query = Record<string, string | string[] | undefined>;
 
 export const destinations = [
-  { city: "Osaka", country: "Japan", photo: "osaka" },
-  { city: "Kyoto", country: "Japan", photo: "kyoto" },
-  { city: "Reykjavík", country: "Iceland", photo: "reykjavic" },
-  { city: "Paris", country: "France", photo: "paris" },
-  { city: "Roma", country: "Italy", photo: "roman" },
-  { city: "Bangkok", country: "Thailand", photo: "bangkok" },
+  { city: "Osaka", country: "Japan", photo: "osaka", count: 2810 },
+  { city: "Kyoto", country: "Japan", photo: "kyoto", count: 1960 },
+  { city: "Reykjavík", country: "Iceland", photo: "reykjavic", count: 420 },
+  { city: "Paris", country: "France", photo: "paris", count: 4150 },
+  { city: "Roma", country: "Italy", photo: "roman", count: 3670 },
+  { city: "Bangkok", country: "Thailand", photo: "bangkok", count: 3240 },
 ];
 
 export const choices = [
-  { city: "Bali", count: 128 },
-  { city: "Okinawa", count: 67 },
-  { city: "Taipei", count: 53 },
+  { city: "Bali", country: "Indonesia", count: 128 },
+  { city: "Okinawa", country: "Japan", count: 67 },
+  { city: "Taipei", country: "Taiwan", count: 53 },
 ];
 
 export const topHotels = [
   {
+    slug: "hotel-aqua",
     name: "Hotel Aqua",
+    city: "Bali",
     photo: "top1",
     rating: 5,
     reviews: "2k",
@@ -34,21 +36,27 @@ export const topHotels = [
     was: 3980,
   },
   {
+    slug: "mr-kawasaki-inn",
     name: "Mr. Kawasaki Inn",
+    city: "Okinawa",
     photo: "top2",
     rating: 4,
     reviews: "500",
     price: 3380,
   },
   {
+    slug: "weekly-paradise",
     name: "Weekly Paradise",
+    city: "Bali",
     photo: "top3",
     rating: 4,
     reviews: "470",
     price: 4780,
   },
   {
+    slug: "beast-hotel",
     name: "Beast Hotel",
+    city: "Taipei",
     photo: "top4",
     rating: 4,
     reviews: "283",
@@ -83,7 +91,25 @@ export const stories = [
 const free = "Free cancellation";
 const noPay = "No prepayment";
 
-export const hotels = [
+export type Hotel = {
+  slug: string;
+  name: string;
+  city: string;
+  photo: string;
+  area: string;
+  distance: number;
+  room: string;
+  bed: string;
+  rating: number;
+  reviews: number;
+  price: number;
+  was?: number;
+  tags: string[];
+  features: string[];
+  type: "Hotel" | "Apartment" | "Unique" | "Hostel";
+};
+
+const bangkokHotels: Omit<Hotel, "city">[] = [
   {
     slug: "rachada-hotel",
     name: "Rachada Hotel",
@@ -240,6 +266,399 @@ export const hotels = [
     type: "Hotel",
   },
 ];
+const breakfast = "Breakfast included";
+const wifi = "Free Wi-Fi";
+const pool = "Swimming pool";
+const double = "1 bed (Queen size)";
+const king = "1 bed (King size)";
+const twins = "2 beds (2 twins)";
+
+const moreHotels: Hotel[] = [
+  {
+    slug: "hotel-aqua",
+    name: "Hotel Aqua",
+    city: "Bali",
+    photo: "top1",
+    area: "Kuta",
+    distance: 1.5,
+    room: "Deluxe Double Room",
+    bed: double,
+    rating: 5,
+    reviews: 2000,
+    price: 2480,
+    was: 3980,
+    tags: [free],
+    features: [breakfast, wifi, pool],
+    type: "Hotel",
+  },
+  {
+    slug: "weekly-paradise",
+    name: "Weekly Paradise",
+    city: "Bali",
+    photo: "top3",
+    area: "Ubud",
+    distance: 3.8,
+    room: "Deluxe Double Room",
+    bed: double,
+    rating: 4,
+    reviews: 470,
+    price: 4780,
+    tags: [noPay],
+    features: [breakfast, pool],
+    type: "Apartment",
+  },
+  {
+    slug: "mr-kawasaki-inn",
+    name: "Mr. Kawasaki Inn",
+    city: "Okinawa",
+    photo: "top2",
+    area: "Naha",
+    distance: 2,
+    room: "Standard Double Room",
+    bed: double,
+    rating: 4,
+    reviews: 500,
+    price: 3380,
+    tags: [free, noPay],
+    features: [breakfast, wifi],
+    type: "Hotel",
+  },
+  {
+    slug: "beast-hotel",
+    name: "Beast Hotel",
+    city: "Taipei",
+    photo: "top4",
+    area: "Da'an",
+    distance: 3.2,
+    room: "Standard Double Room",
+    bed: double,
+    rating: 4,
+    reviews: 283,
+    price: 1980,
+    tags: [free],
+    features: [wifi],
+    type: "Hotel",
+  },
+  {
+    slug: "namba-garden-hotel",
+    name: "Namba Garden Hotel",
+    city: "Osaka",
+    photo: "rooma",
+    area: "Namba",
+    distance: 1.2,
+    room: "Deluxe Double Room",
+    bed: double,
+    rating: 4,
+    reviews: 356,
+    price: 2680,
+    was: 3100,
+    tags: [free],
+    features: [breakfast, wifi],
+    type: "Hotel",
+  },
+  {
+    slug: "umeda-sky-rooms",
+    name: "Umeda Sky Rooms",
+    city: "Osaka",
+    photo: "rangrak",
+    area: "Umeda",
+    distance: 3.1,
+    room: "Standard Double Room",
+    bed: king,
+    rating: 5,
+    reviews: 214,
+    price: 3290,
+    tags: [free, noPay],
+    features: [wifi],
+    type: "Apartment",
+  },
+  {
+    slug: "kitahama-loft",
+    name: "Kitahama Loft",
+    city: "Osaka",
+    photo: "dindaeng1",
+    area: "Kitahama",
+    distance: 1.8,
+    room: "Deluxe Twin Room",
+    bed: twins,
+    rating: 4,
+    reviews: 98,
+    price: 2140,
+    tags: [],
+    features: [wifi],
+    type: "Unique",
+  },
+  {
+    slug: "shinsekai-hostel",
+    name: "Shinsekai Hostel",
+    city: "Osaka",
+    photo: "watana1",
+    area: "Shinsekai",
+    distance: 2.4,
+    room: "Twin Room",
+    bed: twins,
+    rating: 3,
+    reviews: 512,
+    price: 860,
+    tags: [noPay],
+    features: [wifi],
+    type: "Hostel",
+  },
+  {
+    slug: "gion-machiya-stay",
+    name: "Gion Machiya Stay",
+    city: "Kyoto",
+    photo: "phaya",
+    area: "Gion",
+    distance: 1.5,
+    room: "Standard Double Room",
+    bed: double,
+    rating: 5,
+    reviews: 187,
+    price: 3580,
+    tags: [free],
+    features: [breakfast, wifi],
+    type: "Unique",
+  },
+  {
+    slug: "arashiyama-river-inn",
+    name: "Arashiyama River Inn",
+    city: "Kyoto",
+    photo: "roomb",
+    area: "Arashiyama",
+    distance: 9,
+    room: "Deluxe Double Room",
+    bed: double,
+    rating: 4,
+    reviews: 143,
+    price: 2960,
+    was: 3400,
+    tags: [free, noPay],
+    features: [breakfast],
+    type: "Hotel",
+  },
+  {
+    slug: "higashiyama-suites",
+    name: "Higashiyama Suites",
+    city: "Kyoto",
+    photo: "chatuchack2",
+    area: "Higashiyama",
+    distance: 2.2,
+    room: "Deluxe Double Room",
+    bed: king,
+    rating: 4,
+    reviews: 76,
+    price: 3920,
+    tags: [],
+    features: [wifi, pool],
+    type: "Apartment",
+  },
+  {
+    slug: "kyoto-station-hostel",
+    name: "Kyoto Station Hostel",
+    city: "Kyoto",
+    photo: "watana2",
+    area: "Shimogyo",
+    distance: 0.8,
+    room: "Twin Room",
+    bed: twins,
+    rating: 4,
+    reviews: 620,
+    price: 920,
+    tags: [free],
+    features: [wifi],
+    type: "Hostel",
+  },
+  {
+    slug: "harbour-view-hotel",
+    name: "Harbour View Hotel",
+    city: "Reykjavík",
+    photo: "bangkapi",
+    area: "Miðborg",
+    distance: 0.6,
+    room: "Deluxe Double Room",
+    bed: double,
+    rating: 4,
+    reviews: 302,
+    price: 3890,
+    tags: [free],
+    features: [breakfast, wifi],
+    type: "Hotel",
+  },
+  {
+    slug: "northern-lights-apartments",
+    name: "Northern Lights Apartments",
+    city: "Reykjavík",
+    photo: "rooma",
+    area: "Laugardalur",
+    distance: 3.5,
+    room: "Standard Double Room",
+    bed: double,
+    rating: 5,
+    reviews: 88,
+    price: 3150,
+    was: 3600,
+    tags: [noPay],
+    features: [wifi],
+    type: "Apartment",
+  },
+  {
+    slug: "old-harbour-hostel",
+    name: "Old Harbour Hostel",
+    city: "Reykjavík",
+    photo: "watana1",
+    area: "Vesturbær",
+    distance: 1.1,
+    room: "Twin Room",
+    bed: twins,
+    rating: 3,
+    reviews: 410,
+    price: 1180,
+    tags: [free, noPay],
+    features: [wifi],
+    type: "Hostel",
+  },
+  {
+    slug: "hotel-le-marais",
+    name: "Hôtel Le Marais",
+    city: "Paris",
+    photo: "chatuchack1",
+    area: "Le Marais",
+    distance: 1.9,
+    room: "Standard Double Room",
+    bed: double,
+    rating: 4,
+    reviews: 529,
+    price: 3780,
+    tags: [free],
+    features: [breakfast, wifi],
+    type: "Hotel",
+  },
+  {
+    slug: "montmartre-studio",
+    name: "Montmartre Studio",
+    city: "Paris",
+    photo: "rangrak",
+    area: "Montmartre",
+    distance: 4.2,
+    room: "Deluxe Double Room",
+    bed: double,
+    rating: 5,
+    reviews: 167,
+    price: 3240,
+    was: 3680,
+    tags: [free, noPay],
+    features: [wifi],
+    type: "Apartment",
+  },
+  {
+    slug: "latin-quarter-rooms",
+    name: "Latin Quarter Rooms",
+    city: "Paris",
+    photo: "roomb",
+    area: "Latin Quarter",
+    distance: 1.4,
+    room: "Deluxe Twin Room",
+    bed: twins,
+    rating: 4,
+    reviews: 233,
+    price: 2890,
+    tags: [],
+    features: [breakfast],
+    type: "Unique",
+  },
+  {
+    slug: "canal-saint-martin-hostel",
+    name: "Canal Saint-Martin Hostel",
+    city: "Paris",
+    photo: "dindaeng2",
+    area: "Canal Saint-Martin",
+    distance: 3,
+    room: "Twin Room",
+    bed: twins,
+    rating: 3,
+    reviews: 704,
+    price: 1290,
+    tags: [noPay],
+    features: [wifi],
+    type: "Hostel",
+  },
+  {
+    slug: "trastevere-house",
+    name: "Trastevere House",
+    city: "Roma",
+    photo: "dindaeng1",
+    area: "Trastevere",
+    distance: 2.3,
+    room: "Standard Double Room",
+    bed: double,
+    rating: 5,
+    reviews: 276,
+    price: 2780,
+    tags: [free],
+    features: [breakfast, wifi],
+    type: "Unique",
+  },
+  {
+    slug: "hotel-colosseo",
+    name: "Hotel Colosseo",
+    city: "Roma",
+    photo: "phaya",
+    area: "Monti",
+    distance: 1.1,
+    room: "Deluxe Double Room",
+    bed: double,
+    rating: 4,
+    reviews: 488,
+    price: 3460,
+    was: 3980,
+    tags: [free, noPay],
+    features: [breakfast, wifi],
+    type: "Hotel",
+  },
+  {
+    slug: "villa-borghese-suites",
+    name: "Villa Borghese Suites",
+    city: "Roma",
+    photo: "bangkapi",
+    area: "Pinciano",
+    distance: 2.8,
+    room: "Deluxe Double Room",
+    bed: king,
+    rating: 4,
+    reviews: 121,
+    price: 3950,
+    tags: [],
+    features: [wifi, pool],
+    type: "Apartment",
+  },
+  {
+    slug: "termini-hostel",
+    name: "Termini Hostel",
+    city: "Roma",
+    photo: "watana2",
+    area: "Esquilino",
+    distance: 1.6,
+    room: "Twin Room",
+    bed: twins,
+    rating: 3,
+    reviews: 655,
+    price: 990,
+    tags: [free],
+    features: [wifi],
+    type: "Hostel",
+  },
+];
+
+export const hotels: Hotel[] = [
+  ...bangkokHotels.map((hotel) => ({ ...hotel, city: "Bangkok" })),
+  ...moreHotels,
+];
+
+export function cityCount(city: string) {
+  return [...destinations, ...choices].find((item) => item.city === city)
+    ?.count;
+}
 
 export const features = [
   ["wifi", "Wi-Fi"],
@@ -251,31 +670,6 @@ export const features = [
   ["fridge", "Refrigerator"],
   ["bar", "Mini bar"],
 ] as const;
-
-export const roomTypes = [
-  {
-    id: "double-a",
-    name: "Deluxe Double Room A",
-    photo: "rooma",
-    price: 1490,
-    was: 1600,
-    features: [0, 1, 2, 3, 4, 5],
-  },
-  {
-    id: "double-b",
-    name: "Deluxe Double Room B",
-    photo: "roomb",
-    price: 1600,
-    features: [0, 1, 2, 3, 4, 5],
-  },
-  {
-    id: "suite",
-    name: "Deluxe Suite with Pool",
-    photo: "rachada1",
-    price: 1980,
-    features: [0, 1, 2, 3, 6, 4, 7, 5],
-  },
-];
 
 const dateFormat = new Intl.DateTimeFormat("en-GB", {
   day: "numeric",
@@ -318,7 +712,9 @@ export function guestLabel(stay: Stay) {
 }
 
 export function locationLabel(city: string) {
-  const destination = destinations.find((item) => item.city === city);
+  const destination = [...destinations, ...choices].find(
+    (item) => item.city === city,
+  );
   return destination ? destination.city + ", " + destination.country : city;
 }
 
@@ -361,36 +757,4 @@ export function stayQuery(stay: Stay) {
     adults: String(stay.adults),
     rooms: String(stay.rooms),
   });
-}
-
-export function reservation(stay: Stay, query: Query) {
-  const quantities = roomTypes.map((room) => {
-    const value = Number(query[room.id]);
-    return typeof query[room.id] === "string" &&
-      Number.isInteger(value) &&
-      value >= 0 &&
-      value <= 5
-      ? value
-      : 0;
-  });
-  if (!quantities.some(Boolean)) quantities[2] = 1;
-  const rooms = roomTypes.flatMap((room, index) =>
-    quantities[index] ? [{ ...room, quantity: quantities[index] }] : [],
-  );
-  const subtotal = rooms.reduce(
-    (sum, room) => sum + room.quantity * room.price * nights(stay),
-    0,
-  );
-  const tax = Math.round(subtotal * 0.07);
-  const charge = Math.round(subtotal * 0.1);
-  const params = stayQuery(stay);
-  rooms.forEach(({ id, quantity }) => params.set(id, String(quantity)));
-  return {
-    rooms,
-    subtotal,
-    tax,
-    charge,
-    total: subtotal + tax + charge,
-    query: params.toString(),
-  };
 }

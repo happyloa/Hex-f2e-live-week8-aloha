@@ -5,16 +5,13 @@ import { useSlides, useSwipe } from "./carousel";
 import { Icon } from "./icon";
 import { Photo } from "./photo";
 
-const photos = [
-  ["rachada1", "Guest suite with dark walls and a queen bed"],
-  ["rachada2", "Swimming pool surrounded by greenery"],
-  ["rachada3", "Lounge chair by the window"],
-  ["rachada4", "Seating area at Rachada Hotel"],
-  ["rooma", "Deluxe Double Room A"],
-  ["roomb", "Deluxe Double Room B"],
-];
-
-export function Gallery() {
+export function Gallery({
+  name,
+  photos,
+}: {
+  name: string;
+  photos: [asset: string, alt: string][];
+}) {
   const preview = useSlides(photos.length);
   const lightbox = useSlides(photos.length);
   const previewSwipe = useSwipe(preview.advance);
@@ -61,11 +58,11 @@ export function Gallery() {
             loading="eager"
           />
         </button>
-        {photos.slice(1, 4).map(([name, description], number) => (
+        {photos.slice(1, 4).map(([thumb, description], number) => (
           <button
             className={"gallery-thumb gallery-thumb-" + (number + 1)}
             type="button"
-            key={name}
+            key={thumb}
             onClick={() => show(number + 1)}
             aria-label={"View " + description}
           >
@@ -75,7 +72,7 @@ export function Gallery() {
                 srcSet="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
               />
               <Photo
-                asset={name}
+                asset={thumb}
                 sizes={
                   number === 0
                     ? "(min-width: 1024px) 465px, 45vw"
@@ -116,7 +113,7 @@ export function Gallery() {
         }}
       >
         <div className="dialog-heading">
-          <h2 id="gallery-title">Rachada Hotel photos</h2>
+          <h2 id="gallery-title">{name} photos</h2>
           <button
             className="icon-button"
             onClick={() => gallery.current?.close()}

@@ -1,6 +1,7 @@
 import { Confirmation } from "@/components/checkout";
 import { SiteShell } from "@/components/site-shell";
-import { readStay, reservation, type Query } from "@/lib/catalog";
+import { readStay, type Query } from "@/lib/catalog";
+import { reservation } from "@/lib/hotels";
 import "../../account.css";
 
 export const metadata = { title: "Reservation received" };
