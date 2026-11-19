@@ -7,3 +7,5 @@ dist/
 .env*
 *.tsbuildinfo
 *.log
+.vinext/
+next-env.d.ts
