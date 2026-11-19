@@ -128,7 +128,7 @@
     @apply mt-2;
   }
   .destination-grid {
-    @apply grid grid-cols-3 gap-x-[30px] gap-y-2;
+    @apply grid grid-cols-3 gap-x-[30px] gap-y-6;
   }
   .destination {
     @apply relative isolate flex h-[78px] items-center justify-between overflow-hidden rounded-lg px-6 text-white;
@@ -381,6 +381,7 @@
   }
   .destination-grid {
     grid-template-columns: 1fr;
+    row-gap: 8px;
   }
   .subscribe,
   .subscribe-wide {

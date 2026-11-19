@@ -232,6 +232,8 @@
     display: none;
   }
   .hotel-room {
+    align-self: start;
+    margin-top: 16px;
     font-size: 12px;
   }
   .hotel-room ul {

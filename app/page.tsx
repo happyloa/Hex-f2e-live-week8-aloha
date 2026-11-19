@@ -54,7 +54,7 @@ export default function Home() {
               className="button button-outline button-small"
               href="/info/inspiration"
             >
-              More inspiration
+              See more<span className="sr-only"> inspiration</span>
             </a>
           </div>
           <CardCarousel variant="story" label="travel stories">

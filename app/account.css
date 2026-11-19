@@ -149,6 +149,12 @@
   .booking-tabs {
     @apply mt-2 mb-4 flex gap-6;
   }
+  .booking-tabs button {
+    @apply font-bold text-ink/87 hover:text-brand;
+  }
+  .booking-tabs button[aria-pressed="true"] {
+    @apply text-brand;
+  }
   .member-booking {
     @apply grid grid-cols-[35%_1fr] gap-4 pb-6;
   }
@@ -262,10 +268,22 @@
     grid-template-columns: 1fr 1fr;
     gap: 24px;
   }
+  .user-details {
+    display: grid;
+    grid-template-columns: 64px minmax(0, 1fr);
+    column-gap: 12px;
+    align-content: start;
+  }
+  .user-details h2 {
+    grid-column: 1 / -1;
+  }
   .user-details img {
-    float: left;
-    margin-right: 12px;
-    margin-left: 0;
+    float: none;
+    grid-row: span 3;
+    margin: 0;
+  }
+  .user-details p {
+    grid-column: 2;
   }
   .payments {
     margin: 0;
