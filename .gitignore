@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.wrangler/
+.vite/
+.next/
+.dev.vars*
+.env*
+*.tsbuildinfo
+*.log

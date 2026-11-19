@@ -1,0 +1,359 @@
+@reference "./globals.css";
+
+@layer components {
+  .results-layout {
+    @apply grid grid-cols-[350px_minmax(0,1fr)] gap-x-[30px] gap-y-6 pt-6 pb-18;
+  }
+  .results-layout > h1 {
+    @apply text-[32px] leading-tight;
+  }
+  .results-layout > h1 sup {
+    @apply align-super font-sans text-base text-brand;
+  }
+  .sort-controls {
+    @apply flex min-w-0 items-end gap-6 overflow-x-auto whitespace-nowrap;
+    scrollbar-width: none;
+  }
+  .sort-controls button,
+  .booking-tabs button {
+    @apply min-h-8 text-sm font-bold;
+  }
+  .sort-controls button[aria-pressed="true"],
+  .booking-tabs button[aria-pressed="true"],
+  .mobile-sort-options button[aria-pressed="true"] {
+    @apply text-brand;
+  }
+  .desktop-filters {
+    @apply self-start rounded-lg bg-lavender;
+  }
+  .filter-panel {
+    @apply p-6;
+  }
+  .filter-panel > div + div {
+    @apply mt-6 border-t border-white pt-6;
+  }
+  .filter-panel legend {
+    @apply mb-3 font-bold;
+  }
+  .filter-group {
+    @apply grid gap-2;
+  }
+  .filter-group label {
+    @apply flex min-h-6 items-center gap-2 text-text;
+  }
+  .filter-group label .stars {
+    gap: 1px;
+  }
+  .budget {
+    @apply mb-6 border-b border-white pb-6;
+  }
+  .budget-track {
+    @apply relative my-3 h-1.5 rounded-full bg-brand;
+  }
+  .budget-track input {
+    @apply pointer-events-none absolute -top-2 left-0 h-5 w-full appearance-none bg-transparent;
+  }
+  .budget-track input::-webkit-slider-thumb {
+    @apply pointer-events-auto size-3.5 cursor-ew-resize appearance-none rounded-full bg-brand;
+  }
+  .budget-track input::-moz-range-thumb {
+    @apply pointer-events-auto size-3.5 cursor-ew-resize rounded-full border-none bg-brand;
+  }
+  .budget-inputs {
+    @apply grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2 text-sm text-text;
+  }
+  .budget-inputs > label {
+    @apply min-w-0 rounded-control bg-white px-2 py-1 text-[11px] font-bold uppercase text-ink;
+  }
+  .budget-inputs label > span {
+    @apply flex items-center gap-1 text-sm font-normal text-text;
+  }
+  .budget-inputs input {
+    @apply w-full min-w-0 bg-transparent;
+    appearance: textfield;
+  }
+  .budget-inputs input::-webkit-inner-spin-button {
+    appearance: none;
+  }
+  .mobile-result-controls {
+    display: none;
+  }
+
+  .hotel-card {
+    @apply relative grid min-w-0 grid-cols-[255px_minmax(0,1fr)] gap-4 py-6;
+  }
+  .hotel-card:first-child {
+    padding-top: 0;
+  }
+  .hotel-card + .hotel-card {
+    @apply border-t border-line;
+  }
+  .hotel-photo {
+    @apply h-[175px] overflow-hidden rounded-l-lg;
+  }
+  .hotel-photo img {
+    @apply size-full object-cover;
+  }
+  .hotel-body {
+    @apply relative grid min-w-0 grid-cols-[minmax(0,1fr)_auto] grid-rows-[auto_1fr] gap-x-2 py-2;
+  }
+  .hotel-title h2 {
+    @apply text-2xl leading-tight;
+  }
+  .hotel-title a:hover {
+    @apply text-brand underline;
+  }
+  .hotel-location {
+    @apply text-xs font-semibold text-brand;
+  }
+  .hotel-location span {
+    @apply font-normal text-text;
+  }
+  .hotel-rating {
+    @apply flex flex-wrap items-start justify-end gap-1 text-sm whitespace-nowrap text-text;
+  }
+  .hotel-room {
+    @apply self-end text-sm text-text;
+  }
+  .hotel-room small {
+    @apply text-xs;
+  }
+  .hotel-room ul {
+    @apply mt-3 flex flex-wrap gap-1;
+  }
+  .hotel-room li {
+    @apply rounded-full bg-lavender px-2 py-1 text-xs;
+  }
+  .hotel-price {
+    @apply grid self-end text-right text-text;
+  }
+  .hotel-price small {
+    @apply text-xs;
+  }
+  .hotel-price del {
+    @apply font-display text-sm;
+  }
+  .hotel-price strong {
+    @apply font-display text-2xl text-ink;
+  }
+  .hotel-price strong span {
+    @apply text-brand;
+  }
+  .empty-result {
+    @apply grid min-h-70 content-center justify-items-start gap-4 text-text;
+  }
+  .empty-result h2 {
+    @apply text-xl text-ink;
+  }
+  .pagination {
+    @apply mt-2 flex items-center justify-between gap-2 rounded-lg bg-lavender px-4 py-3;
+  }
+  .pagination > :is(a, button) svg {
+    display: none;
+  }
+  .page-numbers {
+    @apply flex flex-wrap gap-0.5 text-sm font-bold;
+  }
+  .page-numbers > * {
+    @apply inline-flex size-8 items-center justify-center rounded-control;
+  }
+  .page-numbers a:hover,
+  .page-numbers > [aria-current] {
+    @apply bg-white;
+  }
+  .mobile-filter-dialog {
+    @apply fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none overflow-auto bg-lavender;
+  }
+  .mobile-filter-dialog .dialog-heading {
+    @apply sticky top-0 z-10 m-0 bg-white px-4 py-2;
+  }
+  .mobile-filter-dialog .dialog-heading h2 {
+    @apply flex items-center gap-2 font-sans text-sm uppercase;
+  }
+  .mobile-filter-fields .filter-panel {
+    @apply p-4;
+  }
+  .mobile-filter-actions {
+    @apply sticky bottom-0 grid grid-cols-2 gap-2 rounded-t-lg bg-ink px-4 py-5 text-white;
+  }
+  .mobile-filter-actions h3 {
+    @apply col-span-2 mb-2 text-2xl;
+  }
+  .mobile-filter-actions .button-outline {
+    @apply border-white text-white;
+  }
+  .mobile-filter-actions .button-outline:hover {
+    @apply bg-white/15;
+  }
+  .mobile-sort-options {
+    @apply grid;
+  }
+  .mobile-sort-options button {
+    @apply border-t border-line py-3 text-left font-bold;
+  }
+}
+
+@media (max-width: 1160px) {
+  .results-layout {
+    grid-template-columns: minmax(190px, 31.53%) minmax(0, 1fr);
+  }
+  .hotel-card {
+    grid-template-columns: minmax(140px, 34%) minmax(0, 1fr);
+  }
+  .hotel-title h2 {
+    font-size: 21px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .results-layout {
+    grid-template-columns: 210px minmax(0, 1fr);
+  }
+  .sort-controls {
+    align-items: center;
+  }
+  .filter-panel {
+    padding-inline: 15px;
+  }
+  .hotel-card {
+    grid-template-columns: minmax(120px, 35%) minmax(0, 1fr);
+    gap: 8px;
+  }
+  .hotel-photo {
+    height: 150px;
+  }
+  .hotel-body {
+    padding-block: 0;
+  }
+  .hotel-title h2 {
+    font-size: 17px;
+  }
+  .hotel-location span {
+    display: none;
+  }
+  .hotel-room {
+    font-size: 12px;
+  }
+  .hotel-room ul {
+    margin-top: 5px;
+  }
+  .hotel-room li {
+    font-size: 10px;
+  }
+  .hotel-rating {
+    flex-direction: column;
+    align-items: end;
+    align-self: start;
+    font-size: 12px;
+  }
+  .hotel-price strong {
+    font-size: 17px;
+    white-space: nowrap;
+  }
+  .pagination > :is(a, button) {
+    min-width: 42px;
+    padding-inline: 6px;
+  }
+  .pagination > :is(a, button) svg {
+    display: block;
+  }
+  .pagination > :is(a, button) span {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .results-layout {
+    display: block;
+    width: 100%;
+    padding: 12px 0 48px;
+  }
+  .results-layout > h1 {
+    text-align: center;
+  }
+  .desktop-filters,
+  .sort-controls {
+    display: none;
+  }
+  .mobile-result-controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 12px;
+  }
+  .mobile-result-controls button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    min-height: 48px;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .mobile-result-controls button + button {
+    border-left: 1px solid var(--color-line);
+  }
+  .hotel-card {
+    grid-template-columns: minmax(120px, 42%) minmax(0, 1fr);
+    gap: 8px;
+    padding: 0;
+  }
+  .hotel-photo {
+    height: 150px;
+    border-radius: 0;
+  }
+  .hotel-body {
+    grid-template: auto auto 1fr auto / minmax(0, 1fr);
+    padding: 4px 8px 3px 0;
+  }
+  .hotel-title h2 {
+    font-size: 16px;
+  }
+  .hotel-location {
+    font-size: 11px;
+  }
+  .hotel-location span,
+  .hotel-room ul,
+  .hotel-price small {
+    display: none;
+  }
+  .hotel-room {
+    align-self: start;
+    font-size: 13px;
+  }
+  .hotel-room small {
+    font-size: 11px;
+  }
+  .hotel-rating {
+    justify-content: flex-start;
+    font-size: 12px;
+  }
+  .hotel-price {
+    line-height: 1.15;
+  }
+  .hotel-price strong {
+    font-size: 16px;
+  }
+  .hotel-price del {
+    font-size: 12px;
+  }
+  .empty-result {
+    padding: 20px 15px;
+  }
+  .pagination {
+    margin: 16px 15px 0;
+  }
+  .page-numbers > :nth-child(n + 3):nth-child(-n + 6) {
+    display: none;
+  }
+  .pagination > :is(a, button) {
+    min-width: 40px;
+    padding-inline: 6px;
+  }
+  .pagination > :is(a, button) svg {
+    display: block;
+  }
+  .pagination > :is(a, button) span {
+    display: none;
+  }
+}

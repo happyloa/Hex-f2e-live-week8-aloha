@@ -1,0 +1,259 @@
+@import "tailwindcss";
+@import "./home.css";
+
+@theme {
+  --font-sans: "Open Sans Variable", "Open Sans", Arial, sans-serif;
+  --font-display: "Raleway Variable", Raleway, Arial, sans-serif;
+  --font-nav: Roboto, Arial, sans-serif;
+  --color-brand: #6c51e2;
+  --color-brand-dark: #5639c4;
+  --color-lavender: #f1f0f8;
+  --color-ink: #121212;
+  --color-text: #595959;
+  --color-subtle: #707070;
+  --color-line: #e9e7f0;
+  --color-field: #a9a7af;
+  --radius-control: 4px;
+}
+
+@layer base {
+  body {
+    @apply flex min-h-dvh flex-col bg-white font-sans text-ink antialiased;
+  }
+  h1,
+  h2,
+  h3 {
+    @apply font-display font-bold;
+  }
+  img {
+    display: block;
+    max-width: 100%;
+  }
+  button,
+  summary,
+  select {
+    cursor: pointer;
+  }
+  button:disabled {
+    cursor: default;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-brand-dark);
+    outline-offset: 3px;
+  }
+  input[type="checkbox"] {
+    accent-color: var(--color-brand);
+    width: 16px;
+    height: 16px;
+    flex: none;
+  }
+  dialog::backdrop {
+    background: rgb(18 18 18 / 0.58);
+  }
+  html:has(dialog[open]) {
+    overflow: hidden;
+  }
+}
+
+@layer components {
+  .site-container {
+    width: min(calc(100% - 30px), 1110px);
+    margin-inline: auto;
+  }
+  .button {
+    @apply inline-flex min-h-14 items-center justify-center gap-2 rounded-control border border-transparent bg-brand px-6 text-center text-base font-bold uppercase text-white;
+    transition:
+      background-color 0.15s,
+      color 0.15s,
+      border-color 0.15s;
+  }
+  .button:hover {
+    @apply bg-brand-dark;
+  }
+  .button:disabled {
+    opacity: 0.58;
+  }
+  .button-outline {
+    @apply border-brand bg-transparent text-brand;
+  }
+  .button-outline:hover {
+    @apply bg-lavender text-brand-dark;
+  }
+  .button-small {
+    @apply min-h-10 px-4 text-sm;
+  }
+  .text-link {
+    @apply text-sm font-bold uppercase text-brand;
+  }
+  .text-link:hover {
+    @apply underline;
+  }
+  .icon-button {
+    @apply inline-flex size-10 shrink-0 items-center justify-center rounded-control;
+  }
+  .icon-button:hover {
+    background: rgb(120 120 135 / 0.13);
+  }
+  .icon-button:disabled {
+    opacity: 0.45;
+  }
+  .stars {
+    @apply inline-flex shrink-0 items-center text-ink;
+  }
+  .field {
+    @apply mb-4 flex min-w-0 flex-col gap-1 text-base text-text;
+  }
+  .field :is(input, select) {
+    @apply h-14 w-full rounded-control border border-field bg-white px-3 text-ink;
+  }
+  .form-error {
+    @apply mb-4 text-sm font-bold text-red-700;
+  }
+
+  .skip-link {
+    @apply fixed top-2 left-2 z-50 -translate-y-24 rounded-control bg-white px-4 py-3 font-bold text-brand shadow-md focus:translate-y-0;
+  }
+  .site-header {
+    @apply relative z-20 bg-white font-nav;
+  }
+  .header-row {
+    @apply grid h-18 grid-cols-[1fr_auto] items-center;
+  }
+  .logo {
+    @apply inline-flex w-fit items-center;
+  }
+  .logo img {
+    width: 96px;
+    height: auto;
+  }
+  .header-links {
+    @apply flex items-center gap-9;
+  }
+  .header-links a:hover,
+  .legal-links a:hover,
+  .footer-preferences a:hover {
+    @apply text-brand underline;
+  }
+  .header-menu,
+  .login-close {
+    display: none;
+  }
+  .member-nav {
+    @apply flex items-center gap-2;
+  }
+  .member-nav img {
+    @apply size-8 rounded-full object-cover;
+  }
+  .site-footer {
+    @apply bg-white text-sm text-text;
+  }
+  .footer-row {
+    @apply flex min-h-18 items-center gap-16;
+  }
+  .legal-links {
+    @apply flex flex-wrap gap-x-6 gap-y-1;
+  }
+  .footer-preferences {
+    @apply ml-auto flex items-center gap-5;
+  }
+  .footer-preferences a {
+    @apply inline-flex items-center gap-1;
+  }
+  .footer-compact .footer-row {
+    @apply justify-between border-t border-line;
+  }
+
+  .panel-dialog {
+    @apply fixed inset-0 m-auto max-h-[calc(100dvh-32px)] w-[min(440px,calc(100%_-_32px))] overflow-auto rounded-lg bg-white p-6 text-ink shadow-xl;
+  }
+  .dialog-heading {
+    @apply mb-4 flex items-center justify-between gap-4;
+  }
+  .dialog-heading h2 {
+    @apply text-2xl;
+  }
+  .placeholder {
+    @apply grid justify-items-start gap-5 py-16 text-text;
+  }
+  .placeholder h1 {
+    @apply text-3xl text-ink;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .site-container {
+    width: min(calc(100% - 76px), 870px);
+  }
+  .footer-row {
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .footer-preferences {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .header-row {
+    grid-template-columns: 1fr auto 1fr;
+    height: 56px;
+  }
+  .header-row > .logo {
+    grid-column: 2;
+  }
+  .header-links {
+    justify-self: end;
+    gap: 0;
+  }
+  .header-desktop,
+  .footer-preferences {
+    display: none;
+  }
+  .header-menu {
+    display: block;
+  }
+  .header-menu summary {
+    display: flex;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    list-style: none;
+  }
+  .header-menu summary::-webkit-details-marker {
+    display: none;
+  }
+  .header-menu nav {
+    position: absolute;
+    top: 56px;
+    left: 0;
+    right: 0;
+    background: white;
+    box-shadow: 0 10px 20px #12121220;
+    padding: 10px 15px;
+  }
+  .header-menu nav a {
+    display: block;
+    padding: 10px 0;
+  }
+  .footer-row,
+  .footer-compact .footer-row {
+    flex-direction: column-reverse;
+    justify-content: center;
+    gap: 14px;
+    padding-block: 24px;
+    text-align: center;
+  }
+  .legal-links {
+    justify-content: center;
+    gap: 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0s !important;
+  }
+}

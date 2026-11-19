@@ -1,0 +1,396 @@
+@reference "./globals.css";
+
+@layer components {
+  .checkout-container {
+    width: min(calc(100% - 30px), 730px);
+    margin-inline: auto;
+  }
+  .checkout-grid {
+    @apply grid grid-cols-2 items-start gap-[30px] pt-6 pb-12;
+  }
+  .checkout-form {
+    @apply col-start-1 row-start-1;
+  }
+  .checkout-form h1,
+  .confirmation h1 {
+    @apply mb-5 text-[32px] leading-tight;
+  }
+  .checkout-form .field {
+    @apply mb-4;
+  }
+  .checkout-form .button {
+    @apply mt-2;
+  }
+  .pay-at-stay {
+    @apply mt-2 text-center font-nav text-sm text-brand;
+  }
+  .booking-summary {
+    @apply col-start-2 row-start-1 rounded-lg bg-lavender p-6 text-sm text-text;
+  }
+  .booking-summary h2 {
+    @apply mb-3 font-sans text-base text-ink;
+  }
+  .booking-summary p + p {
+    @apply mt-2;
+  }
+  .booking-summary section + section,
+  .booking-total {
+    @apply mt-6 border-t border-white pt-6;
+  }
+  .booking-summary dl > div,
+  .booking-total {
+    @apply flex justify-between gap-2;
+  }
+  .booking-summary dl > div + div {
+    @apply mt-2;
+  }
+  .booking-summary dd {
+    @apply shrink-0;
+  }
+  .booking-total {
+    @apply text-base;
+  }
+  .booking-summary strong {
+    @apply text-ink;
+  }
+  .booking-toggle {
+    display: none;
+  }
+  .confirmation {
+    @apply pt-6 pb-12;
+  }
+  .confirmation h1 {
+    @apply mb-8;
+  }
+  .confirmation dl {
+    @apply border-t border-line;
+  }
+  .confirmation-group {
+    @apply grid gap-3 border-b border-line py-6;
+  }
+  .confirmation-group > div {
+    @apply grid grid-cols-[26%_1fr] gap-2;
+  }
+  .confirmation dt {
+    @apply font-bold;
+  }
+  .confirmation dd {
+    @apply min-w-0 break-words text-text;
+  }
+  .confirmation dd small {
+    @apply ml-4 text-xs text-brand;
+  }
+  .confirmation-actions {
+    @apply mt-6 flex justify-end gap-2;
+  }
+
+  .login-page {
+    @apply isolate min-h-dvh;
+  }
+  .site-header.login-header {
+    @apply bg-transparent;
+  }
+  .login-layout {
+    @apply grid grid-cols-12 items-start gap-x-[30px] pt-[100px] pb-16;
+  }
+  .login-image-wrap {
+    @apply absolute inset-y-0 left-0 -z-10 w-[64%] bg-lavender;
+  }
+  .login-image {
+    @apply size-full object-cover object-[50%_57%];
+  }
+  .login-promo {
+    @apply col-span-6;
+  }
+  .login-promo h2 {
+    @apply max-w-[570px] text-5xl leading-tight font-extrabold;
+  }
+  .login-promo p {
+    @apply mt-6 text-sm text-text;
+  }
+  .login-location {
+    @apply absolute bottom-6 left-[max(20px,calc((100%_-_1110px)/2))] flex items-center gap-2 rounded-control bg-black/85 px-3 py-2 text-sm text-white;
+  }
+  .login-form {
+    @apply col-span-4 col-start-9 max-w-[350px];
+  }
+  .login-form h1 {
+    @apply mb-3 text-[32px];
+  }
+  .login-terms {
+    @apply mt-6 mb-4 text-xs text-text;
+  }
+  .login-form a {
+    @apply font-bold text-brand;
+  }
+  .login-form a:hover {
+    @apply underline;
+  }
+  .remember {
+    @apply mb-6 flex items-center gap-2 text-text;
+  }
+  .login-signup {
+    @apply mt-2 text-center text-sm text-text;
+  }
+
+  .member-layout {
+    @apply grid grid-cols-[minmax(0,2fr)_minmax(0,1fr)] gap-x-[30px] pt-6 pb-12;
+  }
+  .my-bookings {
+    @apply col-start-1 row-start-1;
+  }
+  .profile {
+    @apply col-start-2 row-start-1;
+  }
+  .my-bookings h2,
+  .profile h1 {
+    @apply text-2xl;
+  }
+  .booking-tabs {
+    @apply mt-2 mb-4 flex gap-6;
+  }
+  .member-booking {
+    @apply grid grid-cols-[35%_1fr] gap-4 pb-6;
+  }
+  .member-booking + .member-booking {
+    @apply border-t border-line pt-6;
+  }
+  .member-booking > img {
+    @apply h-[175px] w-full rounded-l-lg object-cover;
+  }
+  .member-booking-body {
+    @apply grid grid-cols-[1fr_auto] content-center gap-x-2 gap-y-2;
+  }
+  .member-booking-body > div {
+    @apply col-start-1 flex items-start gap-3 text-sm text-text;
+  }
+  .member-booking-body strong {
+    @apply text-base text-ink;
+  }
+  .member-booking-body svg {
+    @apply shrink-0 text-ink;
+  }
+  .member-booking-body a {
+    @apply col-start-2 row-start-1 self-start;
+  }
+  .empty-bookings {
+    @apply py-5 text-sm text-text;
+  }
+  .profile-heading {
+    @apply mb-4 flex items-center gap-2;
+  }
+  .profile-heading > span {
+    @apply inline-flex items-center gap-1 rounded-full bg-brand px-2 py-1 text-xs uppercase text-white;
+  }
+  .profile-heading > a {
+    @apply ml-auto;
+  }
+  .profile-panel {
+    @apply rounded-lg bg-lavender p-6 text-sm text-text;
+  }
+  .profile-panel h2 {
+    @apply mb-4 font-sans text-base text-ink;
+  }
+  .user-details {
+    @apply flow-root;
+  }
+  .user-details img {
+    @apply float-right ml-2 size-16 rounded-lg object-cover;
+  }
+  .user-details p + p {
+    @apply mt-3;
+  }
+  .payments {
+    @apply mt-6;
+  }
+  .payment-list {
+    @apply grid grid-cols-2 gap-2;
+  }
+  .payment-list p,
+  .payment-list a {
+    @apply min-w-0 rounded-control bg-white p-3;
+  }
+  .payment-list p {
+    @apply relative leading-relaxed;
+  }
+  .payment-list p svg {
+    @apply absolute right-3 bottom-3 text-ink;
+  }
+  .payment-list a {
+    @apply grid place-items-center;
+  }
+  .payment-list a > span {
+    @apply grid size-8 place-items-center rounded-full bg-brand text-white;
+  }
+  .payment-list a:hover > span {
+    @apply bg-brand-dark;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .checkout-container {
+    width: calc(100% - 76px);
+  }
+  .login-layout {
+    display: block;
+    padding-top: 16px;
+  }
+  .login-image-wrap {
+    width: 100%;
+  }
+  .login-image {
+    object-position: bottom;
+  }
+  .login-promo {
+    display: none;
+  }
+  .login-form {
+    margin-inline: auto;
+    width: min(100%, 330px);
+  }
+  .login-location {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .member-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+  .profile-panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .user-details img {
+    float: left;
+    margin-right: 12px;
+    margin-left: 0;
+  }
+  .payments {
+    margin: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .checkout-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 0 0 44px;
+  }
+  .checkout-form {
+    width: 100%;
+  }
+  .checkout-form h1 {
+    font-size: 24px;
+  }
+  .booking-summary {
+    width: calc(100% + 30px);
+    margin-inline: -15px;
+    padding: 0;
+    border-radius: 0;
+  }
+  .booking-toggle {
+    display: flex;
+    width: 100%;
+    min-height: 56px;
+    align-items: center;
+    justify-content: space-between;
+    padding-inline: 15px;
+  }
+  .booking-toggle > span:last-child {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--color-brand);
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .booking-toggle strong {
+    margin-left: 3px;
+  }
+  .booking-details {
+    display: none;
+    margin: 0 15px;
+    padding: 16px 0;
+    border-top: 1px solid white;
+  }
+  .booking-summary.is-expanded .booking-details {
+    display: block;
+  }
+  .confirmation {
+    padding: 24px 0 48px;
+  }
+  .confirmation h1 {
+    font-size: 24px;
+    margin-bottom: 22px;
+  }
+  .confirmation-group {
+    padding-block: 20px;
+    font-size: 14px;
+  }
+  .confirmation dd small {
+    display: block;
+    margin: 2px 0 0;
+  }
+  .confirmation-actions {
+    flex-direction: column;
+  }
+  .login-header .header-row {
+    display: flex;
+    justify-content: space-between;
+  }
+  .login-close {
+    display: inline-flex;
+    min-width: 40px;
+    min-height: 40px;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  .login-layout {
+    display: block;
+    padding-top: 22px;
+  }
+  .login-promo,
+  .login-image-wrap,
+  .login-location {
+    display: none;
+  }
+  .login-form {
+    max-width: none;
+  }
+  .member-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    padding-block: 24px 48px;
+  }
+  .member-booking {
+    overflow: hidden;
+    display: block;
+    margin-bottom: 24px;
+    padding: 0;
+    background: var(--color-lavender);
+    border-radius: 8px;
+  }
+  .member-booking + .member-booking {
+    margin-bottom: 0;
+    padding: 0;
+    border: 0;
+  }
+  .member-booking > img {
+    height: 228px;
+    border-radius: 0;
+  }
+  .member-booking-body {
+    display: grid;
+    grid-template-columns: 1fr;
+    padding: 24px;
+  }
+  .member-booking-body a {
+    grid-area: auto;
+    justify-self: start;
+    margin-top: 12px;
+  }
+}
