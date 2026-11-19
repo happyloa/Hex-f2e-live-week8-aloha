@@ -62,7 +62,7 @@
   .confirmation h1 {
     @apply mb-8;
   }
-  .confirmation dl {
+  .confirmation-details {
     @apply border-t border-line;
   }
   .confirmation-group {

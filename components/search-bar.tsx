@@ -78,7 +78,11 @@ export function SearchBar({
                 type="button"
                 key={id}
                 onClick={() => show(id)}
-                aria-label={"Change " + title}
+                aria-label={
+                  (id === "destination" ? values.destination : labels[id]) +
+                  ", change " +
+                  title
+                }
               >
                 {id === "destination" ? values.destination : labels[id]}
               </button>

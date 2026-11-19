@@ -168,8 +168,8 @@ export function Confirmation({
   return (
     <div className="checkout-container confirmation">
       <h1>Reservation received!</h1>
-      <dl>
-        <div className="confirmation-group">
+      <div className="confirmation-details">
+        <dl className="confirmation-group">
           <div>
             <dt>Guest</dt>
             <dd>{display.name}</dd>
@@ -189,8 +189,8 @@ export function Confirmation({
             <dt>Phone</dt>
             <dd>{display.phone || "—"}</dd>
           </div>
-        </div>
-        <div className="confirmation-group">
+        </dl>
+        <dl className="confirmation-group">
           <div>
             <dt>Room</dt>
             <dd>
@@ -204,8 +204,8 @@ export function Confirmation({
               / {nightLabel(nights(stay))}
             </dd>
           </div>
-        </div>
-        <div className="confirmation-group">
+        </dl>
+        <dl className="confirmation-group">
           <div>
             <dt>Check-In</dt>
             <dd>{dateLabel(stay.checkIn, true)}</dd>
@@ -214,8 +214,8 @@ export function Confirmation({
             <dt>Check-Out</dt>
             <dd>{dateLabel(stay.checkOut, true)}</dd>
           </div>
-        </div>
-      </dl>
+        </dl>
+      </div>
       <div className="confirmation-actions">
         <a
           className="button button-outline"
