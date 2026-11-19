@@ -28,7 +28,7 @@ npm run build
 npm run preview
 ```
 
-登入 Wrangler 後，以 `npm run deploy` 部署。
+Cloudflare Workers Builds 已連接這個 repo，推上 `main` 會自動執行 `npm run deploy`（建置環境設定 `NODE_VERSION=24`）。要從本機手動部署，登入 Wrangler 後執行 `npm run deploy`。
 
 ## 程式結構
 
