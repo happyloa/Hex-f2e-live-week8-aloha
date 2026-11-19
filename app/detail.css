@@ -38,8 +38,16 @@
   .gallery-dialog {
     width: min(740px, calc(100% - 24px));
   }
-  .gallery-dialog > img {
-    @apply aspect-video w-full rounded-lg object-cover;
+  .gallery-stage {
+    @apply aspect-video w-full overflow-hidden rounded-lg bg-lavender;
+    touch-action: pan-y;
+  }
+  .gallery-stage img {
+    @apply size-full object-cover;
+  }
+  .gallery-main {
+    @apply overflow-hidden;
+    touch-action: pan-y;
   }
   .gallery-pagination {
     @apply mt-3 flex items-center justify-between gap-2 text-center text-sm text-text;

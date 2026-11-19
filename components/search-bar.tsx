@@ -1,17 +1,17 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useId, useLayoutEffect, useRef, useState } from "react";
 import {
-  choices,
   dateLabel,
   defaultStay,
-  destinations,
   guestLabel,
   locationLabel,
   stayQuery,
   type Stay,
 } from "@/lib/catalog";
 import { Icon, type IconName } from "./icon";
+import { StayCalendar } from "./stay-calendar";
+import { DestinationOptions, GuestOptions } from "./stay-options";
 
 type Field = "destination" | "dates" | "guests";
 const fields: { id: Field; title: string; icon: IconName }[] = [
@@ -28,34 +28,84 @@ export function SearchBar({
   detail?: boolean;
 }) {
   const [values, setValues] = useState(stay ?? defaultStay);
+  const [draft, setDraft] = useState(values);
   const [edited, setEdited] = useState<Field[]>([]);
   const [open, setOpen] = useState<Field>();
   const dialog = useRef<HTMLDialogElement>(null);
-  const hasValue = (field: Field) => stay || edited.includes(field);
-  const dateRange =
-    dateLabel(values.checkIn) + " - " + dateLabel(values.checkOut);
+  const anchor = useRef<HTMLButtonElement>(null);
+  const headingId = useId();
+  const dialogId = useId();
+  const hasValue = (field: Field) => Boolean(stay) || edited.includes(field);
   const labels = {
     destination: locationLabel(values.destination),
-    dates: dateRange,
+    dates: dateLabel(values.checkIn) + " - " + dateLabel(values.checkOut),
     guests: guestLabel(values),
   };
-  const isValid = values.checkOut > values.checkIn;
 
-  function show(field: Field) {
-    setOpen(field);
-    dialog.current?.showModal();
-  }
+  useLayoutEffect(() => {
+    const panel = dialog.current;
+    const trigger = anchor.current;
+    if (!open || !panel || !trigger) return;
 
-  function setValue<K extends keyof Stay>(key: K, value: Stay[K]) {
-    setValues((previous) => ({ ...previous, [key]: value }));
-  }
+    const placePanel = () => {
+      if (window.innerWidth < 768) return;
+      const bounds = trigger.getBoundingClientRect();
+      const { width, height } = panel.getBoundingClientRect();
+      const right = window.innerWidth - width - 12;
+      const bottom = window.innerHeight - height - 12;
+      const fitsBelow = bounds.bottom + height + 20 <= window.innerHeight;
+      const above = bounds.top - height - 8;
+      const top = fitsBelow ? bounds.bottom + 8 : above >= 12 ? above : bottom;
+      panel.style.setProperty(
+        "--picker-left",
+        Math.max(12, Math.min(bounds.left, right)) + "px",
+      );
+      panel.style.setProperty("--picker-top", Math.max(12, top) + "px");
+    };
 
-  function submit() {
-    if (!isValid) {
-      show("dates");
-      return;
+    if (!panel.open) panel.showModal();
+    placePanel();
+    if (
+      open === "destination" &&
+      window.matchMedia("(min-width: 768px)").matches
+    ) {
+      panel
+        .querySelector<HTMLInputElement>("[data-picker-focus]")
+        ?.focus({ preventScroll: true });
     }
-    window.location.assign("/results?" + stayQuery(values));
+    const observer = new ResizeObserver(placePanel);
+    observer.observe(panel);
+    window.addEventListener("resize", placePanel);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", placePanel);
+    };
+  }, [open]);
+
+  function show(field: Field, trigger: HTMLButtonElement) {
+    anchor.current = trigger;
+    setDraft(
+      field === "dates" && !hasValue(field)
+        ? { ...values, checkIn: "", checkOut: "" }
+        : values,
+    );
+    setOpen(field);
+  }
+
+  function search(next: Stay) {
+    window.location.assign("/results?" + stayQuery(next));
+  }
+
+  function apply() {
+    if (!open || !draft.checkIn || draft.checkOut <= draft.checkIn) return;
+    if (stay) search(draft);
+    else {
+      setValues(draft);
+      setEdited((previous) =>
+        previous.includes(open) ? previous : [...previous, open],
+      );
+      dialog.current?.close();
+    }
   }
 
   return (
@@ -73,20 +123,23 @@ export function SearchBar({
                 <Icon name="back" size={20} />
               </a>
             )}
-            {fields.map(({ id, title }) => (
-              <button
-                type="button"
-                key={id}
-                onClick={() => show(id)}
-                aria-label={
-                  (id === "destination" ? values.destination : labels[id]) +
-                  ", change " +
-                  title
-                }
-              >
-                {id === "destination" ? values.destination : labels[id]}
-              </button>
-            ))}
+            {fields.map(({ id, title }) => {
+              const label =
+                id === "destination" ? values.destination : labels[id];
+              return (
+                <button
+                  type="button"
+                  key={id}
+                  aria-haspopup="dialog"
+                  aria-expanded={open === id}
+                  aria-controls={dialogId}
+                  onClick={(event) => show(id, event.currentTarget)}
+                  aria-label={label + ", change " + title}
+                >
+                  {label}
+                </button>
+              );
+            })}
           </div>
         )}
         <div
@@ -99,7 +152,10 @@ export function SearchBar({
               type="button"
               className="search-option"
               key={id}
-              onClick={() => show(id)}
+              aria-haspopup="dialog"
+              aria-expanded={open === id}
+              aria-controls={dialogId}
+              onClick={(event) => show(id, event.currentTarget)}
             >
               <Icon name={icon} />
               {hasValue(id) && id === "dates" && stay ? (
@@ -121,128 +177,95 @@ export function SearchBar({
               )}
             </button>
           ))}
-          <button className="button" type="button" onClick={submit}>
+          <button
+            className="button"
+            type="button"
+            onClick={() => search(values)}
+          >
             Search
           </button>
         </div>
         <dialog
+          id={dialogId}
           ref={dialog}
-          className="panel-dialog search-dialog"
-          aria-labelledby="search-dialog-title"
+          className={
+            "panel-dialog search-dialog search-dialog-" +
+            (open ?? "destination")
+          }
+          aria-labelledby={headingId}
+          onClose={() => {
+            setOpen(undefined);
+            anchor.current?.focus({ preventScroll: true });
+          }}
+          onClick={(event) => {
+            if (event.target !== event.currentTarget) return;
+            const bounds = event.currentTarget.getBoundingClientRect();
+            if (
+              event.clientX < bounds.left ||
+              event.clientX > bounds.right ||
+              event.clientY < bounds.top ||
+              event.clientY > bounds.bottom
+            )
+              event.currentTarget.close();
+          }}
         >
-          <div className="dialog-heading">
-            <h2 id="search-dialog-title">
-              {fields.find(({ id }) => id === open)?.title ?? "Search stays"}
-            </h2>
-            <button
-              className="icon-button"
-              onClick={() => dialog.current?.close()}
-              aria-label="Close search options"
+          {open && (
+            <form
+              onSubmit={(event) => {
+                event.preventDefault();
+                apply();
+              }}
             >
-              <Icon name="close" />
-            </button>
-          </div>
-          <form
-            onSubmit={(event) => {
-              event.preventDefault();
-              if (open && (open !== "dates" || isValid)) {
-                setEdited((previous) => [...previous, open]);
-                if (stay) submit();
-                else dialog.current?.close();
-              }
-            }}
-          >
-            {open === "destination" && (
-              <label className="field">
-                Destination
-                <select
-                  value={values.destination}
-                  onChange={(event) =>
-                    setValue("destination", event.target.value)
+              <div className="dialog-heading">
+                <h2 id={headingId}>
+                  {fields.find(({ id }) => id === open)?.title}
+                </h2>
+                <button
+                  className="icon-button"
+                  type="button"
+                  onClick={() => dialog.current?.close()}
+                  aria-label="Close search options"
+                >
+                  <Icon name="close" size={21} />
+                </button>
+              </div>
+              {open === "destination" && (
+                <DestinationOptions
+                  value={draft.destination}
+                  onChange={(destination) =>
+                    setDraft({ ...draft, destination })
+                  }
+                />
+              )}
+              {open === "dates" && (
+                <StayCalendar
+                  value={draft}
+                  onChange={(range) => setDraft({ ...draft, ...range })}
+                />
+              )}
+              {open === "guests" && (
+                <GuestOptions
+                  adults={draft.adults}
+                  rooms={draft.rooms}
+                  onChange={(field, count) =>
+                    setDraft({ ...draft, [field]: count })
+                  }
+                />
+              )}
+              <div className="search-dialog-action">
+                <button
+                  type="submit"
+                  className="button w-full"
+                  disabled={
+                    open === "dates" &&
+                    (!draft.checkIn || draft.checkOut <= draft.checkIn)
                   }
                 >
-                  {[
-                    ...destinations.map(({ city }) => city),
-                    ...choices.map(({ city }) => city),
-                  ].map((city) => (
-                    <option key={city} value={city}>
-                      {locationLabel(city)}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            )}
-            {open === "dates" && (
-              <>
-                <label className="field">
-                  Check-in
-                  <input
-                    type="date"
-                    value={values.checkIn}
-                    onChange={(event) =>
-                      event.target.value &&
-                      setValue("checkIn", event.target.value)
-                    }
-                    required
-                  />
-                </label>
-                <label className="field">
-                  Check-out
-                  <input
-                    type="date"
-                    value={values.checkOut}
-                    onChange={(event) =>
-                      event.target.value &&
-                      setValue("checkOut", event.target.value)
-                    }
-                    required
-                  />
-                </label>
-                {!isValid && (
-                  <p className="form-error" role="alert">
-                    Check-out must be after check-in.
-                  </p>
-                )}
-              </>
-            )}
-            {open === "guests" && (
-              <>
-                <label className="field">
-                  Adults
-                  <select
-                    value={values.adults}
-                    onChange={(event) =>
-                      setValue("adults", Number(event.target.value))
-                    }
-                  >
-                    {Array.from({ length: 8 }, (_, index) => (
-                      <option key={index}>{index + 1}</option>
-                    ))}
-                  </select>
-                </label>
-                <label className="field">
-                  Rooms
-                  <select
-                    value={values.rooms}
-                    onChange={(event) =>
-                      setValue("rooms", Number(event.target.value))
-                    }
-                  >
-                    {Array.from({ length: 5 }, (_, index) => (
-                      <option key={index}>{index + 1}</option>
-                    ))}
-                  </select>
-                </label>
-              </>
-            )}
-            <button
-              type="submit"
-              className="button w-full"
-              disabled={open === "dates" && !isValid}
-            >
-              {stay ? "Search" : "Apply"}
-            </button>
-          </form>
+                  {stay ? "Search" : "Apply"}
+                </button>
+              </div>
+            </form>
+          )}
         </dialog>
       </div>
     </div>

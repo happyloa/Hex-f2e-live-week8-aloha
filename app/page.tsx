@@ -1,8 +1,10 @@
 import { destinations, defaultStay, stayQuery, stories } from "@/lib/catalog";
 import { Hero, TopChoices } from "@/components/home-carousel";
+import { CardCarousel } from "@/components/carousel";
 import { Icon } from "@/components/icon";
 import { Photo } from "@/components/photo";
 import { SearchBar } from "@/components/search-bar";
+import { ScrollMotion } from "@/components/scroll-motion";
 import { SiteShell } from "@/components/site-shell";
 
 export default function Home() {
@@ -10,9 +12,14 @@ export default function Home() {
     <SiteShell subscribe="wide">
       <Hero />
       <SearchBar />
+      <ScrollMotion />
       <div className="site-container home-content">
         <TopChoices />
-        <section className="home-section" aria-labelledby="destinations-title">
+        <section
+          className="home-section"
+          aria-labelledby="destinations-title"
+          data-reveal
+        >
           <h2 id="destinations-title">Popular Destinations</h2>
           <div className="destination-grid">
             {destinations.map(({ city, country, photo }) => (
@@ -36,7 +43,11 @@ export default function Home() {
             ))}
           </div>
         </section>
-        <section className="home-section" aria-labelledby="inspiration-title">
+        <section
+          className="home-section"
+          aria-labelledby="inspiration-title"
+          data-reveal
+        >
           <div className="section-heading">
             <h2 id="inspiration-title">Get Inspiration</h2>
             <a
@@ -46,7 +57,7 @@ export default function Home() {
               More inspiration
             </a>
           </div>
-          <div className="story-strip strip">
+          <CardCarousel variant="story" label="travel stories">
             {stories.map(({ slug, title, photo, excerpt }) => (
               <article key={slug}>
                 <a href={"/info/" + slug}>
@@ -59,7 +70,7 @@ export default function Home() {
                 <p>{excerpt}</p>
               </article>
             ))}
-          </div>
+          </CardCarousel>
         </section>
       </div>
     </SiteShell>

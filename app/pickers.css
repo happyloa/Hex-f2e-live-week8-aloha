@@ -1,0 +1,177 @@
+@layer components {
+  .search-option[aria-expanded="true"] {
+    @apply text-brand;
+    box-shadow: inset 0 0 0 2px var(--color-brand);
+  }
+  .panel-dialog.search-dialog {
+    @apply rounded-2xl border border-line p-0;
+    box-shadow:
+      0 20px 52px rgb(38 29 83 / 0.21),
+      0 3px 12px rgb(38 29 83 / 0.1);
+  }
+  .search-dialog .dialog-heading {
+    @apply sticky top-0 z-10 m-0 border-b border-line bg-white px-5 py-2.5;
+  }
+  .search-dialog .dialog-heading h2 {
+    @apply text-xl;
+  }
+  .search-dialog .dialog-heading .icon-button {
+    @apply rounded-full text-subtle;
+  }
+  .search-dialog-action {
+    @apply sticky bottom-0 z-10 border-t border-line bg-white px-5 py-3;
+  }
+  .search-dialog-action .button {
+    @apply min-h-11 rounded-lg py-2;
+  }
+  .destination-picker,
+  .guest-options,
+  .stay-calendar {
+    @apply p-5;
+  }
+  .destination-search {
+    @apply flex min-h-12 items-center gap-2 rounded-lg border border-line bg-lavender px-3 text-brand;
+  }
+  .destination-search:focus-within {
+    box-shadow: inset 0 0 0 1px var(--color-brand);
+  }
+  .destination-search input {
+    @apply w-full bg-transparent text-base text-ink outline-none;
+  }
+  .destination-search input:focus-visible {
+    outline: none;
+  }
+  .destination-options {
+    @apply mt-2 grid max-h-[240px] gap-1 overflow-auto overscroll-contain;
+    scrollbar-width: thin;
+  }
+  .destination-options [role="option"] {
+    @apply grid min-h-11 cursor-pointer grid-cols-[auto_1fr_auto] items-center gap-3 rounded-lg px-2 py-1.5 text-sm text-ink;
+  }
+  .destination-options [data-active="true"],
+  .destination-options [role="option"]:hover {
+    @apply bg-lavender;
+  }
+  .destination-options [aria-selected="true"] {
+    @apply font-bold text-brand;
+  }
+  .destination-option-icon,
+  .guest-option-icon {
+    @apply grid size-8 place-items-center rounded-full bg-lavender text-brand;
+  }
+  .destination-empty {
+    @apply px-1 py-4 text-sm text-text;
+  }
+  .guest-option {
+    @apply grid min-h-14 grid-cols-[auto_1fr_40px_26px_40px] items-center gap-2;
+  }
+  .guest-option + .guest-option {
+    @apply mt-2 border-t border-line pt-2;
+  }
+  .guest-option .icon-button {
+    @apply rounded-full border border-line text-brand;
+  }
+  .guest-option .icon-button:enabled:hover {
+    @apply border-brand bg-lavender;
+  }
+  .guest-option output {
+    @apply text-center text-sm font-bold tabular-nums;
+  }
+  .calendar-selection {
+    @apply mb-3 grid grid-cols-2 gap-2;
+  }
+  .calendar-selection div {
+    @apply grid rounded-lg bg-lavender px-3 py-2;
+  }
+  .calendar-selection span {
+    @apply text-xs font-semibold text-text;
+  }
+  .calendar-selection strong {
+    @apply text-sm text-brand-dark;
+  }
+  .calendar-grid {
+    @apply relative grid grid-cols-2 items-start gap-4;
+  }
+  .calendar-month {
+    @apply table-fixed border-separate border-spacing-y-0.5 text-center;
+  }
+  .calendar-month caption {
+    @apply mb-2 py-2 text-center text-sm font-bold;
+  }
+  .calendar-month th {
+    @apply h-6 text-xs font-semibold text-subtle;
+  }
+  .calendar-month td {
+    @apply h-9 p-0;
+  }
+  .calendar-month button {
+    @apply mx-auto grid size-9 place-items-center rounded-lg text-sm font-semibold tabular-nums;
+  }
+  .calendar-month button[aria-current="date"] {
+    @apply ring-1 ring-inset ring-brand;
+  }
+  .calendar-month button:not(.calendar-endpoint):hover,
+  .calendar-in-range {
+    @apply bg-lavender;
+  }
+  .calendar-month .calendar-endpoint {
+    @apply bg-brand text-white;
+  }
+  .calendar-grid .icon-button {
+    @apply absolute top-0 size-8 rounded-full border border-line bg-white text-brand;
+  }
+  .calendar-grid .icon-button:hover {
+    @apply bg-lavender;
+  }
+  .calendar-previous {
+    left: 0;
+  }
+  .calendar-next {
+    right: 0;
+  }
+  .calendar-status {
+    @apply mt-2 min-h-5 text-sm text-text;
+  }
+}
+
+@media (min-width: 768px) {
+  .panel-dialog.search-dialog {
+    inset: var(--picker-top, 12px) auto auto var(--picker-left, 12px);
+    margin: 0;
+    width: min(390px, calc(100% - 24px));
+    max-height: calc(100dvh - 24px);
+  }
+  .panel-dialog.search-dialog-dates {
+    width: min(630px, calc(100% - 24px));
+  }
+  .search-dialog::backdrop {
+    background: rgb(18 18 18 / 0.13);
+  }
+}
+
+@media (max-width: 767px) {
+  .panel-dialog.search-dialog {
+    inset: auto 0 0;
+    margin: 0;
+    width: 100%;
+    max-width: none;
+    max-height: calc(100dvh - 16px);
+    max-height: calc(100svh - 16px);
+    border-radius: 18px 18px 0 0;
+  }
+  .search-dialog-action {
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
+  }
+  .calendar-grid {
+    display: block;
+  }
+  .calendar-month {
+    width: 100%;
+  }
+  .calendar-month-next {
+    display: none;
+  }
+  .calendar-month button {
+    width: min(36px, 100%);
+  }
+}

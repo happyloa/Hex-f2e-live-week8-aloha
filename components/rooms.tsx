@@ -50,7 +50,7 @@ export function Rooms({ stay }: { stay: Stay }) {
         <span>Rooms</span>
       </div>
       {roomTypes.map((room, index) => (
-        <article className="room-row room-option" key={room.id}>
+        <article className="room-row room-option" key={room.id} data-reveal>
           <div className="room-info">
             <Photo
               asset={room.photo}

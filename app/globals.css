@@ -1,5 +1,7 @@
 @import "tailwindcss";
 @import "./home.css";
+@import "./pickers.css";
+@import "./motion.css";
 
 @theme {
   --font-sans: "Open Sans Variable", "Open Sans", Arial, sans-serif;

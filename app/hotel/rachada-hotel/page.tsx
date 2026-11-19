@@ -2,6 +2,7 @@ import { Gallery } from "@/components/gallery";
 import { Stars } from "@/components/icon";
 import { Rooms } from "@/components/rooms";
 import { SearchBar } from "@/components/search-bar";
+import { ScrollMotion } from "@/components/scroll-motion";
 import { SiteShell } from "@/components/site-shell";
 import { readStay, type Query } from "@/lib/catalog";
 import "../../detail.css";
@@ -17,9 +18,14 @@ export default async function HotelPage({
   return (
     <SiteShell subscribe="inline">
       <SearchBar stay={stay} detail />
+      <ScrollMotion />
       <div className="site-container detail-layout">
         <Gallery />
-        <section className="hotel-description" aria-labelledby="hotel-name">
+        <section
+          className="hotel-description"
+          aria-labelledby="hotel-name"
+          data-reveal
+        >
           <div className="detail-heading">
             <h1 id="hotel-name">Rachada Hotel</h1>
             <p>

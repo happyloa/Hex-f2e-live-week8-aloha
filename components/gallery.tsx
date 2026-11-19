@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { useSlides, useSwipe } from "./carousel";
 import { Icon } from "./icon";
 import { Photo } from "./photo";
 
@@ -14,29 +15,50 @@ const photos = [
 ];
 
 export function Gallery() {
-  const [index, setIndex] = useState(0);
+  const preview = useSlides(photos.length);
+  const lightbox = useSlides(photos.length);
+  const previewSwipe = useSwipe(preview.advance);
+  const lightboxSwipe = useSwipe(lightbox.advance);
+  const [opened, setOpened] = useState(false);
   const gallery = useRef<HTMLDialogElement>(null);
-  const change = (step: number) =>
-    setIndex((current) => (current + step + photos.length) % photos.length);
-  const show = (start: number) => {
-    setIndex(start);
+  const [previewAsset, previewAlt] = photos[preview.index];
+  const [asset, alt] = photos[lightbox.index];
+
+  function show(start: number) {
+    lightbox.goTo(start);
+    setOpened(true);
     gallery.current?.showModal();
-  };
-  const [asset, alt] = photos[index];
+  }
+
   return (
     <>
-      <div className="gallery">
+      <div
+        className="gallery"
+        role="region"
+        aria-label="Hotel photos"
+        aria-roledescription="carousel"
+        {...previewSwipe.handlers}
+      >
         <button
           type="button"
           className="gallery-main"
-          onClick={() => show(0)}
+          onClick={() => {
+            if (previewSwipe.swiped.current) {
+              previewSwipe.swiped.current = false;
+              return;
+            }
+            show(preview.index);
+          }}
           aria-label="Open hotel photo gallery"
         >
           <Photo
-            asset={asset}
-            alt={alt}
+            key={previewAsset}
+            className={preview.motionClass.trim() || undefined}
+            asset={previewAsset}
+            alt={previewAlt}
             sizes="(min-width: 1024px) 635px, (min-width: 768px) 55vw, 100vw"
-            priority={index === 0}
+            priority={preview.index === 0}
+            loading="eager"
           />
         </button>
         {photos.slice(1, 4).map(([name, description], number) => (
@@ -47,16 +69,20 @@ export function Gallery() {
             onClick={() => show(number + 1)}
             aria-label={"View " + description}
           >
-            <Photo
-              asset={name}
-              alt=""
-              loading="eager"
-              sizes={
-                number === 0
-                  ? "(min-width: 1024px) 465px, 45vw"
-                  : "(min-width: 1024px) 230px, 22vw"
-              }
-            />
+            <picture>
+              <source
+                media="(max-width: 767px)"
+                srcSet="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+              />
+              <Photo
+                asset={name}
+                sizes={
+                  number === 0
+                    ? "(min-width: 1024px) 465px, 45vw"
+                    : "(min-width: 1024px) 230px, 22vw"
+                }
+              />
+            </picture>
           </button>
         ))}
         <button className="button gallery-all" onClick={() => show(0)}>
@@ -64,14 +90,14 @@ export function Gallery() {
         </button>
         <button
           className="icon-button gallery-previous"
-          onClick={() => change(-1)}
+          onClick={() => preview.advance(-1)}
           aria-label="Previous hotel photo"
         >
           <Icon name="left" />
         </button>
         <button
           className="icon-button gallery-next"
-          onClick={() => change(1)}
+          onClick={() => preview.advance(1)}
           aria-label="Next hotel photo"
         >
           <Icon name="right" />
@@ -81,6 +107,13 @@ export function Gallery() {
         className="panel-dialog gallery-dialog"
         ref={gallery}
         aria-labelledby="gallery-title"
+        onClose={() => setOpened(false)}
+        onKeyDown={(event) => {
+          if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+            event.preventDefault();
+            lightbox.advance(event.key === "ArrowRight" ? 1 : -1);
+          }
+        }}
       >
         <div className="dialog-heading">
           <h2 id="gallery-title">Rachada Hotel photos</h2>
@@ -92,26 +125,32 @@ export function Gallery() {
             <Icon name="close" />
           </button>
         </div>
-        <Photo
-          asset={asset}
-          alt={alt}
-          sizes="(min-width: 760px) 720px, 90vw"
-          loading="eager"
-        />
+        {opened && (
+          <div className="gallery-stage" {...lightboxSwipe.handlers}>
+            <Photo
+              key={asset}
+              className={lightbox.motionClass.trim() || undefined}
+              asset={asset}
+              alt={alt}
+              sizes="(min-width: 760px) 720px, 90vw"
+              loading="eager"
+            />
+          </div>
+        )}
         <div className="gallery-pagination">
           <button
             className="icon-button"
-            onClick={() => change(-1)}
+            onClick={() => lightbox.advance(-1)}
             aria-label="Previous photo"
           >
             <Icon name="left" />
           </button>
           <p aria-live="polite">
-            {index + 1} / {photos.length} · {alt}
+            {lightbox.index + 1} / {photos.length} · {alt}
           </p>
           <button
             className="icon-button"
-            onClick={() => change(1)}
+            onClick={() => lightbox.advance(1)}
             aria-label="Next photo"
           >
             <Icon name="right" />

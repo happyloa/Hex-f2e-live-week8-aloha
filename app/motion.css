@@ -1,0 +1,75 @@
+@layer components {
+  .hero {
+    touch-action: pan-y;
+  }
+  .hero .hero-playback {
+    @apply absolute right-[max(15px,calc((100%_-_1110px)/2))] bottom-16 size-9 rounded-full border border-white/60 bg-black/50 text-white;
+  }
+  .hero .hero-playback:hover {
+    @apply bg-black/75;
+  }
+  .card-carousel {
+    @apply relative;
+  }
+  .card-carousel .card-carousel-control {
+    @apply absolute top-16 z-10 size-9 rounded-full bg-white text-ink;
+    box-shadow: 0 2px 10px rgb(18 18 18 / 0.22);
+  }
+  .card-carousel .card-carousel-control:enabled:hover {
+    @apply bg-lavender text-brand;
+  }
+  .card-carousel .card-carousel-control:disabled {
+    @apply pointer-events-none opacity-0;
+  }
+  .card-carousel-prev {
+    left: -12px;
+  }
+  .card-carousel-next {
+    right: -12px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .slide-forward {
+    animation: slide-arrive 0.38s ease-out;
+    --slide-entry: 32px;
+  }
+  .slide-backward {
+    animation: slide-arrive 0.38s ease-out;
+    --slide-entry: -32px;
+  }
+  .reveal-enter {
+    animation: scroll-arrive 0.43s ease-out;
+  }
+}
+
+@keyframes slide-arrive {
+  from {
+    opacity: 0.38;
+    transform: translateX(var(--slide-entry));
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scroll-arrive {
+  from {
+    opacity: 0.68;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 767px) {
+  .card-carousel-prev {
+    left: -7px;
+  }
+  .card-carousel-next {
+    right: -7px;
+  }
+}
