@@ -20,8 +20,8 @@ export function LoginForm() {
       </label>
       <p className="login-terms">
         By signing in or creating an account, you agree with our{" "}
-        <a href="/info/terms-of-use">Terms &amp; Conditions</a> and{" "}
-        <a href="/info/privacy-policy">Privacy Statement</a>
+        <a href="/terms-of-use">Terms &amp; Conditions</a> and{" "}
+        <a href="/privacy-policy">Privacy Statement</a>
       </p>
       <label className="remember">
         <input type="checkbox" defaultChecked /> Remember me

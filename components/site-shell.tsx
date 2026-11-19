@@ -3,11 +3,7 @@ import { Icon } from "./icon";
 import { Photo } from "./photo";
 import { Subscribe } from "./subscribe";
 
-const legalLinks = [
-  ["FAQS", "FAQs"],
-  ["terms-of-use", "Terms of use"],
-  ["privacy-policy", "Privacy policy"],
-];
+import { legalPages } from "@/lib/legal";
 
 export function Header({
   member = false,
@@ -88,13 +84,15 @@ export function Footer({ compact = false }: { compact?: boolean }) {
     <footer className={"site-footer" + (compact ? " footer-compact" : "")}>
       <div
         className={
-          compact ? "checkout-container footer-row" : "site-container footer-row"
+          compact
+            ? "checkout-container footer-row"
+            : "site-container footer-row"
         }
       >
         <p>© 2020 ALOHA, Inc. All rights reserved.</p>
         <nav className="legal-links" aria-label="Help and policies">
-          {legalLinks.map(([slug, title]) => (
-            <a key={slug} href={"/info/" + slug.toLowerCase()}>
+          {legalPages.map(({ slug, title }) => (
+            <a key={slug} href={"/" + slug}>
               {title}
             </a>
           ))}

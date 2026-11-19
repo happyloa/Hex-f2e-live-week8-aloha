@@ -3,9 +3,6 @@ import { SiteShell } from "@/components/site-shell";
 import { hotels, stories } from "@/lib/catalog";
 
 const pages = new Map([
-  ["faqs", "FAQs"],
-  ["terms-of-use", "Terms of use"],
-  ["privacy-policy", "Privacy policy"],
   ["sign-up", "Sign up"],
   ["language", "Language"],
   ["currency", "Currency"],
