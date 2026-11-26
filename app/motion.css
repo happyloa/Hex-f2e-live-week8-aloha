@@ -41,6 +41,23 @@
   .reveal-enter {
     animation: scroll-arrive 0.43s ease-out;
   }
+  .room-booking-bar {
+    --overlay-entry: 100%;
+    animation: overlay-arrive 300ms ease-out;
+  }
+  .mobile-filter-dialog[open] {
+    --overlay-entry: -100%;
+    animation: overlay-arrive 300ms ease-out;
+  }
+}
+
+@keyframes overlay-arrive {
+  from {
+    transform: translateY(var(--overlay-entry));
+  }
+  to {
+    transform: translateY(0);
+  }
 }
 
 @keyframes slide-arrive {

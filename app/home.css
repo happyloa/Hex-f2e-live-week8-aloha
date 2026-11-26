@@ -201,8 +201,8 @@
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
-  .hero h1 {
-    max-width: 460px;
+  .hero h1 span {
+    display: block;
   }
   .home-search {
     width: min(calc(100% - 76px), 570px);
@@ -213,7 +213,13 @@
   }
   .home-content {
     gap: 48px;
-    padding-block: 48px;
+    padding-block: 48px 26px;
+  }
+  .subscribe-wide {
+    padding-block: 90px;
+  }
+  body:has(.home-content) .site-footer .footer-row {
+    min-height: 67px;
   }
   .top-strip {
     grid-auto-columns: 270px;

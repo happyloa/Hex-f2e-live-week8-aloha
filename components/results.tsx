@@ -1,13 +1,7 @@
 "use client";
 
-import { useRef, useState } from "react";
-import {
-  cityCount,
-  hotels,
-  money,
-  stayQuery,
-  type Stay,
-} from "@/lib/catalog";
+import { useEffect, useRef, useState } from "react";
+import { cityCount, hotels, money, stayQuery, type Stay } from "@/lib/catalog";
 import { Icon, Stars } from "./icon";
 import { Photo } from "./photo";
 
@@ -203,7 +197,8 @@ function HotelCard({
       <div className="hotel-body">
         <div className="hotel-title">
           <p className="hotel-location">
-            {hotel.area}, {hotel.city}<span>・{hotel.distance} km from center</span>
+            {hotel.area}, {hotel.city}
+            <span>・{hotel.distance} km from center</span>
           </p>
           <h2>
             <a href={href}>{hotel.name}</a>
@@ -246,11 +241,15 @@ function HotelCard({
 }
 
 export function Results({ stay }: { stay: Stay }) {
+  const [interactive, setInteractive] = useState(false);
   const [filters, setFilters] = useState(initialFilters);
   const [draft, setDraft] = useState(initialFilters);
   const [sort, setSort] = useState(0);
   const filterDialog = useRef<HTMLDialogElement>(null);
   const sortDialog = useRef<HTMLDialogElement>(null);
+  useEffect(() => {
+    setInteractive(true);
+  }, []);
   const query = stayQuery(stay).toString();
   const cityHotels = hotels.filter((hotel) => hotel.city === stay.destination);
   const filterHotels = (values: Filters) =>
@@ -295,6 +294,7 @@ export function Results({ stay }: { stay: Stay }) {
       <div className="mobile-result-controls">
         <button
           type="button"
+          disabled={!interactive}
           onClick={() => {
             setDraft(filters);
             filterDialog.current?.showModal();
@@ -302,7 +302,11 @@ export function Results({ stay }: { stay: Stay }) {
         >
           <Icon name="filter" /> Filter
         </button>
-        <button type="button" onClick={() => sortDialog.current?.showModal()}>
+        <button
+          type="button"
+          disabled={!interactive}
+          onClick={() => sortDialog.current?.showModal()}
+        >
           <Icon name="sort" /> Sort
         </button>
       </div>
@@ -414,11 +418,7 @@ export function Results({ stay }: { stay: Stay }) {
           <FilterPanel filters={draft} onChange={setDraft} />
         </div>
         <div className="mobile-filter-actions">
-          <h3>
-            Find{" "}
-            {filterHotels(draft).length}{" "}
-            results
-          </h3>
+          <h3>Find {filterHotels(draft).length} results</h3>
           <button
             className="button button-outline"
             onClick={() => setDraft(initialFilters)}

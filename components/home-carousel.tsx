@@ -111,7 +111,9 @@ export function Hero() {
         >
           <Icon name="left" size={30} />
         </button>
-        <h1>Discover your ideal hotel</h1>
+        <h1>
+          Discover your <span>ideal hotel</span>
+        </h1>
         <button
           type="button"
           className="icon-button"

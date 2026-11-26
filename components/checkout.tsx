@@ -103,8 +103,10 @@ export function Checkout({
   edit: boolean;
 }) {
   const [guest, setGuest] = useState(emptyGuest);
+  const [interactive, setInteractive] = useState(false);
   useEffect(() => {
     if (edit) setGuest(readGuest() ?? sampleGuest);
+    setInteractive(true);
   }, [edit]);
 
   const fields = [
@@ -131,6 +133,7 @@ export function Checkout({
               {label}
               <input
                 type={type}
+                disabled={!interactive}
                 autoComplete={auto}
                 value={guest[key]}
                 onChange={(event) =>
@@ -141,7 +144,11 @@ export function Checkout({
               />
             </label>
           ))}
-          <button className="button w-full" type="submit">
+          <button
+            className="button w-full"
+            type="submit"
+            disabled={!interactive}
+          >
             Reserve
           </button>
           <p className="pay-at-stay">Reserve now, pay at stay</p>
