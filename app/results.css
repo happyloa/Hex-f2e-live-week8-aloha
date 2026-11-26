@@ -206,8 +206,24 @@
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
+  main:has(> .results-layout) > .search-band {
+    padding-block: 16px;
+  }
+  main:has(> .results-layout) .search-wrap {
+    width: calc(100% - 78px);
+  }
+  main:has(> .results-layout) .search-controls {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) 126px;
+  }
+  main:has(> .results-layout) ~ .site-footer .footer-row {
+    min-height: 67px;
+  }
   .results-layout {
+    width: calc(100% - 78px);
     grid-template-columns: 210px minmax(0, 1fr);
+    row-gap: 16px;
+    padding-top: 29px;
+    padding-bottom: 48px;
   }
   .sort-controls {
     align-items: center;
@@ -216,8 +232,12 @@
     padding-inline: 15px;
   }
   .hotel-card {
-    grid-template-columns: minmax(120px, 35%) minmax(0, 1fr);
+    grid-template-columns: 150px minmax(0, 1fr);
     gap: 8px;
+    padding-block: 16px;
+  }
+  .hotel-card:first-child {
+    padding-top: 0;
   }
   .hotel-photo {
     height: 150px;
@@ -226,7 +246,7 @@
     padding-block: 0;
   }
   .hotel-title h2 {
-    font-size: 17px;
+    font-size: 16px;
   }
   .hotel-location span {
     display: none;
@@ -238,9 +258,13 @@
   }
   .hotel-room ul {
     margin-top: 5px;
+    flex-direction: column;
+    align-items: flex-start;
   }
   .hotel-room li {
     font-size: 10px;
+    line-height: 16px;
+    padding-block: 0;
   }
   .hotel-rating {
     flex-direction: column;
@@ -251,6 +275,10 @@
   .hotel-price strong {
     font-size: 17px;
     white-space: nowrap;
+  }
+  .pagination {
+    margin-top: 8px;
+    min-height: 72px;
   }
   .pagination > :is(a, button) {
     min-width: 42px;
